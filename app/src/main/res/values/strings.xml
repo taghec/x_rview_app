@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name" translatable="false">X RView App</string>
+    <string name="app_greeting_01">Welcome To This World</string>
+    <string name="stg_btn_greeting_change">Change Greeting</string>
+    <string name="app_greeting_02">Please Leave Now</string>
+    <string name="stg_firstname_def">Firstname:</string>
+    <string name="stg_lastname_def">Lastname:</string>
+    <string name="btn_start_personact">Single Person</string>
+    <string name="stg_age_label">Age:</string>
+    <string name="stg_gender_label">Gender:</string>
+    <string name="app_list_act_name" translatable="false">List Activity. type:</string>
+    <string name="stg_btn_rvlist_label">RView List</string>
+    <string name="stg_btn_cvpersons_label">CView Listing</string>
+</resources>

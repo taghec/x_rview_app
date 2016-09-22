@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_greeting_01">Bienvenue Ce Monde</string>
+    <string name="stg_firstname_def">Nom:</string>
+    <string name="stg_lastname_def">Nom de Famille:</string>
+    <string name="app_greeting_02">Laisser S\'il Vous Plaît</string>
+    <string name="stg_btn_greeting_change">Otre Salut</string>
+    <string name="btn_start_personact">Una Personne</string>
+    <string name="stg_age_label">âge</string>
+    <string name="stg_btn_cvpersons_label">CView Inscription</string>
+    <string name="stg_btn_rvlist_label">RView Inscription</string>
+    <string name="stg_gender_label">Le gendre:</string>
+</resources>
