@@ -3,6 +3,7 @@ package com.avilagroup.dev.x_rview_app;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.avilagroup.dev.x_rview_app.databinding.ActivityRviewAsyncListBinding;
 import com.avilagroup.dev.x_rview_app.util.asyncGetPeople;
@@ -15,8 +16,10 @@ public class RviewAsyncListActivity extends AppCompatActivity {
 //        setContentView(R.layout.activity_rview_async_list);
         setTitle(getString(R.string.app_name) + " - RView Async");
 
+//        Log.d("ASYNC",": Starting listBinding");
         final ActivityRviewAsyncListBinding listBinding = DataBindingUtil
                 .setContentView(this, R.layout.activity_rview_async_list);
+//        Log.d("ASYNC",": Ending listBinding");
 //        final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
 
         /*

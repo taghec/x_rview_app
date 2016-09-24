@@ -10,13 +10,19 @@ import java.util.Random;
  * Created by taghec on 21/09/2016.
  */
 
-public class PersonUtil extends Person {
-//    private List<Person> persons;
+public class PersonUtil {
+    private List<Person> persons;
 //    static List<Person> persons = new ArrayList<Person>();
 
+    public PersonUtil() {
+        // constructor for all data
+        this.persons = initPersons();
+    }
+/*
     public PersonUtil(String firstname, String lastname, int age, String gender) {
         super(firstname, lastname, age, gender);
     }
+*/
 
     public static List<Person> initPersons(){
         List<Person> persons = new ArrayList<Person>();
@@ -29,15 +35,19 @@ public class PersonUtil extends Person {
         return persons;
     }
 
-    public static List<Person> getPersons() {
-//        persons.add(new Person("Lenni","Avi",3,"male"));
+    public List<Person> getPersons() {
+//        persons.add(new Person("Dustin","Johnson",3,"male"));
 //        persons.add(new Person("John", "McEnroe", 90,"male"));
 
-        return initPersons();
+//        this.persons = initPersons();
+
+        return this.persons;
     }
 
-    public static Person getPersonRandom() {
-        List<Person> persons = getPersons();
-        return persons.get(new Random().nextInt(persons.size()));
+    public Person getPersonRandom() {
+//        List<Person> persons = getPersons();
+
+        // out of all, get a random person.
+        return persons.get(new Random().nextInt(this.persons.size()));
     }
 }

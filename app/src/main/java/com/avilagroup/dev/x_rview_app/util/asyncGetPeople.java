@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.avilagroup.dev.x_rview_app.R;
 import com.avilagroup.dev.x_rview_app.RviewAsyncListActivity;
@@ -43,6 +44,7 @@ public class asyncGetPeople extends AsyncTask<Void, Void, Void>{
         progressDialog.setMessage(this.context.getResources()
                 .getString(R.string.stg_inprogress));
         progressDialog.setCancelable(false);
+//        Log.d("ASYNC", ": Bringing up progressDialog");
         progressDialog.show();
     }
 
@@ -50,7 +52,13 @@ public class asyncGetPeople extends AsyncTask<Void, Void, Void>{
     protected Void doInBackground(Void... params) {
         // For now, a static list. Will implement
         // an http call later from this Util class.
-        this.persons = PersonUtil.getPersons();
+        /**
+         * See comments on PersonBinding act regarding data/util
+         * instance call.
+         */
+//        Log.d("ASYNC", ": Calling up data");
+        final PersonUtil personUtil = new PersonUtil();
+        this.persons = personUtil.getPersons();
         return null;
     }
 
@@ -59,6 +67,7 @@ public class asyncGetPeople extends AsyncTask<Void, Void, Void>{
         super.onPostExecute(results);
 
         // Drop the status message
+//        Log.d("ASYNC", ": Removing progressDialog");
         if (progressDialog.isShowing())
             progressDialog.dismiss();
 

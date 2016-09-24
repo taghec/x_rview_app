@@ -26,12 +26,16 @@ public class CviewListActivity extends AppCompatActivity {
         final ActivityRviewListBinding cviewListBinding = DataBindingUtil
                 .setContentView(this, R.layout.activity_rview_list);
 
-        /*
+        /**
          * Notice this will be exactly the same as the RviewList act
          * excpet that the adapter used for the display of the individual
          * rows - it will reference the cv version of the adapter.
+         *
+         * See comments on PersonBinding act regarding data/util
+         * instance call.
          */
-        List<Person> persons = PersonUtil.getPersons();
+        final PersonUtil personUtil = new PersonUtil();
+        List<Person> persons = personUtil.getPersons();
 
         final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         cviewListBinding.rvRviewList.setLayoutManager(layoutManager);

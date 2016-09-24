@@ -23,7 +23,12 @@ public class RviewListActivity extends AppCompatActivity {
         final ActivityRviewListBinding rviewListBinding = DataBindingUtil
                 .setContentView(this, R.layout.activity_rview_list);
 
-        List<Person> persons = PersonUtil.getPersons();
+        /**
+         * See comment on 'PersonBinding' activity reg
+         * data/utility class instance.
+         */
+        final PersonUtil personUtil = new PersonUtil();
+        List<Person> persons = personUtil.getPersons();
 
         final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rviewListBinding.rvRviewList.setLayoutManager(layoutManager);

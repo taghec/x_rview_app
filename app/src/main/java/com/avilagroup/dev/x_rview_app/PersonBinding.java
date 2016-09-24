@@ -18,7 +18,16 @@ public class PersonBinding extends AppCompatActivity {
 
 //        Person aPerson = new Person("Lenni","Avi",3,"male");
 //        Person aPerson = PersonUtil.getPersons().get(1);
-        Person aPerson = PersonUtil.getPersonRandom();
+
+        /**
+         *  Modified the PersonUtil class. Now need to create
+         * instance before using. This makes better use of
+         * the single pass call for data, instead of
+         * recreating in the class for every method.
+        */
+        final PersonUtil personUtil = new PersonUtil();
+        Person aPerson = personUtil.getPersonRandom();
+
         personBinding.setPerson(aPerson);
     }
 }
