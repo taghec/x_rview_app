@@ -14,7 +14,7 @@ import com.avilagroup.dev.x_rview_app.model.Person;
 import java.util.List;
 
 /**
- * Created by temp on 22/09/2016.
+ * Created by taghec on 22/09/2016.
  *
  * HEC - this is essentially exactly the same as the rvPersonAdapter,
  *      named "PersonAdapter" in this project (I didn't clarify the purpose originally)

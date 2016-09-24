@@ -1,7 +1,7 @@
 package com.avilagroup.dev.x_rview_app.model;
 
 /**
- * Created by temp on 20/09/2016.
+ * Created by taghec on 20/09/2016.
  */
 
 public class Person

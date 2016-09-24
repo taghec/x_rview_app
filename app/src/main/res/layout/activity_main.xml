@@ -68,5 +68,13 @@
 
         </LinearLayout>
 
+        <Button
+            android:text="@string/stg_btn_async_persons_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/btn_asy_persons_list" />
+
     </RelativeLayout>
 </layout>
