@@ -47,6 +47,18 @@ public class MainActivity extends AppCompatActivity {
                 startCviewListActivity();
             }
         });
+
+        activityMainBinding.btnAsyPersonsList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startAsycnListActivity();
+            }
+        });
+    }
+
+    private void startAsycnListActivity() {
+        Intent launchAsyncListActivity = new Intent(MainActivity.this, RviewAsyncListActivity.class);
+        startActivity(launchAsyncListActivity);
     }
 
     private void startCviewListActivity() {
