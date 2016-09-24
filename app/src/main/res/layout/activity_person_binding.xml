@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tvFirstname"
-            android:layout_toRightOf="@+id/tvFirstnameLabel"
+            android:layout_toEndOf="@+id/tvFirstnameLabel"
             android:layout_alignBaseline="@id/tvFirstnameLabel" />
 
         <TextView
@@ -49,7 +49,7 @@
             android:text="@{person.lastname}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/tvLastnameLabel"
+            android:layout_toEndOf="@+id/tvLastnameLabel"
             android:layout_alignBaseline="@id/tvLastnameLabel"
             android:id="@+id/tvLastname" />
 
@@ -66,7 +66,7 @@
             android:text="@{String.valueOf(person.age)}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/tvAgeLabel"
+            android:layout_toEndOf="@id/tvAgeLabel"
             android:layout_alignBaseline="@id/tvAgeLabel"
             android:id="@+id/tvAge" />
 
@@ -83,7 +83,7 @@
             android:text="@{person.gender}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/tvGenderLabel"
+            android:layout_toEndOf="@id/tvGenderLabel"
             android:layout_alignBaseline="@id/tvGenderLabel"
             android:id="@+id/tvGender" />
     </RelativeLayout>

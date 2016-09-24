@@ -10,7 +10,8 @@
 <LinearLayout
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/cardview_default_elevation">
 
     <TextView
         android:id="@+id/tvPersonName"

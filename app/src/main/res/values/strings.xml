@@ -13,4 +13,5 @@
     <string name="stg_btn_cvpersons_label">CView Listing</string>
     <string name="stg_inprogress">In Progress..</string>
     <string name="stg_btn_async_persons_label">ASYCN LIST</string>
+    <string name="stg_person_img">Person Image</string>
 </resources>

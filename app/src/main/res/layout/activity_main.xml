@@ -28,8 +28,7 @@
             android:layout_below="@+id/tv_main_greeting"
             android:layout_centerHorizontal="true"
             android:id="@+id/btn_greeting_change"
-            android:padding="@dimen/activity_horizontal_margin"
-            android:layout_weight="1" />
+            android:padding="@dimen/activity_horizontal_margin"/>
 
         <LinearLayout
             android:orientation="horizontal"
@@ -42,8 +41,6 @@
                 android:text="@string/stg_btn_rvlist_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentStart="true"
                 android:id="@+id/btn_rv_persons"
                 android:layout_weight="1" />
 
@@ -52,16 +49,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/btn_cvPersons"
-                android:layout_alignParentBottom="true"
-                android:layout_toEndOf="@+id/btn_rv_persons"
                 android:layout_weight="1" />
 
             <Button
                 android:text="@string/btn_start_personact"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
                 android:id="@+id/btn_personlist"
                 android:padding="@dimen/activity_horizontal_margin"
                 android:layout_weight="1" />
