@@ -20,12 +20,13 @@
     <ImageView
         android:layout_width="@android:dimen/notification_large_icon_width"
         android:layout_height="@android:dimen/notification_large_icon_width"
-        app:srcCompat="@android:drawable/picture_frame"
+        app:srcCompat="@drawable/ic_account_box_black_36dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:id="@+id/ivPerson"
         android:scaleType="fitXY"
-        android:contentDescription="@string/stg_person_img" />
+        android:contentDescription="@string/stg_person_img"
+        android:tint="@color/cardview_dark_background" />
 
     <TextView
         android:id="@+id/tvPersonName"
