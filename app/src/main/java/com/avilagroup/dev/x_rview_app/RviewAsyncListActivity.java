@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.avilagroup.dev.x_rview_app.databinding.ActivityRviewAsyncListBinding;
+import com.avilagroup.dev.x_rview_app.util.PersonUtil;
 import com.avilagroup.dev.x_rview_app.util.asyncGetPeople;
 
 public class RviewAsyncListActivity extends AppCompatActivity {
@@ -63,12 +64,24 @@ public class RviewAsyncListActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder vHolder, int direction) {
+                Integer listLoc = vHolder.getAdapterPosition();
+                String stgFlingMsg = "flinged! ";
+//                stgFlingMsg += "thr: " + super.getSwipeThreshold(vHolder);
+                stgFlingMsg += "loc: " + listLoc.toString();
+
                 Toast.makeText(RviewAsyncListActivity.this,
-                        "flinged! thr:"+super.getSwipeThreshold(vHolder),
+                        stgFlingMsg,
                         Toast.LENGTH_SHORT).show();
                 Log.d("DEBUG SWIPE: ", "dir = " + direction);
             }
 
+            /**
+             * taghec - optional method of .SimpleCallback. Uses the return value to calculate when the
+             *          'swipe' is considered off the screen. I've increased it by 150% from def .5f
+             *          so it is now .75f (3/4 of the screen).
+             * @param viewHolder it's the row view for the rview Listing.
+             * @return floating amount needed to swipe across the screen.
+             */
             @Override
             public float getSwipeThreshold(RecyclerView.ViewHolder viewHolder) {
                 float factor = 1.5f;

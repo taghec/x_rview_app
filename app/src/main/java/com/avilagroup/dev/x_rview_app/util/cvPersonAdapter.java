@@ -1,12 +1,16 @@
 package com.avilagroup.dev.x_rview_app.util;
 
+import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.avilagroup.dev.x_rview_app.BR;
+import com.avilagroup.dev.x_rview_app.PersonBinding;
 import com.avilagroup.dev.x_rview_app.R;
 import com.avilagroup.dev.x_rview_app.databinding.ActivityCviewListItemBinding;
 import com.avilagroup.dev.x_rview_app.model.Person;
@@ -24,27 +28,48 @@ import java.util.List;
 public class cvPersonAdapter
     extends RecyclerView.Adapter<cvPersonAdapter.CviewHolder>{
     private List<Person> personList;
+    private Context mContext;
 
-    public cvPersonAdapter(List<Person> personList) {
+    public cvPersonAdapter(Context context, List<Person> personList) {
         this.personList = personList;
+        this.mContext = context;
     }
 
     @Override
     public CviewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.activity_cview_list_item, parent, false);
-        CviewHolder holder = new CviewHolder(v);
-        return holder;
+        return new CviewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(CviewHolder holder, int position) {
-        final Person person = personList.get(position);
+    public void onBindViewHolder(final CviewHolder holder, int position) {
+        // don't use position, as it could be out of sync
+        final Person person = personList.get(holder.getAdapterPosition());
 
         // the method getBinding is defined below, and the magic "BR"
         // android binding-resource is used to access the layout vars
         holder.getBinding().setVariable(BR.person, person);
         holder.getBinding().executePendingBindings();
+
+        // click each of the list, response
+        holder.getBinding().cvCviewList.setOnClickListener(new View.OnClickListener() {
+//            Context context = mContext;
+            @Override
+            public void onClick(View v) {
+                int listLocation = holder.getAdapterPosition();
+                Person mPerson = personList.get(listLocation);
+                Toast.makeText(mContext,"clicked: "+mPerson.getFirstname(),Toast.LENGTH_SHORT).show();
+
+                startPersonBinding(listLocation);
+            }
+        });
+    }
+
+    private void startPersonBinding(int listLoc) {
+        Intent launchPersonBinding = new Intent(mContext, PersonBinding.class);
+        launchPersonBinding.putExtra("listLoc", listLoc);
+        mContext.startActivity(launchPersonBinding);
     }
 
     @Override
@@ -52,12 +77,12 @@ public class cvPersonAdapter
         return personList.size();
     }
 
-    public static class CviewHolder extends RecyclerView.ViewHolder {
+    static class CviewHolder extends RecyclerView.ViewHolder {
         // This auto-class is avail only if at root, or importing the
         // magic "BR" binding-resource class as above
         private ActivityCviewListItemBinding rviewListItemBinding;
 
-        public CviewHolder(View v) {
+        CviewHolder(View v) {
             super(v);
             rviewListItemBinding = DataBindingUtil.bind(v);
         }

@@ -81,7 +81,7 @@ public class asyncGetPeople extends AsyncTask<Void, Void, Void>{
         // cvPersonAdapter and PersonAdapter are essentially the same,
         // except the former makes reference to the 'ListLayout' for item rows.
         // It is as easy as alternating the name here to get a different layout.
-        final RecyclerView.Adapter personsAdapter = new cvPersonAdapter(this.persons);
+        final RecyclerView.Adapter personsAdapter = new cvPersonAdapter(this.context, this.persons);
         this.binding.rvRviewList.setAdapter(personsAdapter);
     }
 }

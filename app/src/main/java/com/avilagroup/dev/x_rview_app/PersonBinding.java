@@ -1,5 +1,6 @@
 package com.avilagroup.dev.x_rview_app;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,9 +25,18 @@ public class PersonBinding extends AppCompatActivity {
          * instance before using. This makes better use of
          * the single pass call for data, instead of
          * recreating in the class for every method.
+         *
+         * Mod: if there's a spec person/item req'd (in Intent), get it,
+         * otherwise just get a random.
         */
         final PersonUtil personUtil = new PersonUtil();
-        Person aPerson = personUtil.getPersonRandom();
+        Person aPerson;
+        int listLoc = this.getIntent().getIntExtra("listLoc",-1);
+
+        if (listLoc >= 0){
+            aPerson = personUtil.getPerson(listLoc);
+        } else
+            aPerson = personUtil.getPersonRandom();
 
         personBinding.setPerson(aPerson);
     }

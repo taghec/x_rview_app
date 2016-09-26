@@ -40,7 +40,7 @@ public class CviewListActivity extends AppCompatActivity {
         final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         cviewListBinding.rvRviewList.setLayoutManager(layoutManager);
 
-        final RecyclerView.Adapter cvPersonAdapter = new cvPersonAdapter(persons);
+        final RecyclerView.Adapter cvPersonAdapter = new cvPersonAdapter(this, persons);
         cviewListBinding.rvRviewList.setAdapter(cvPersonAdapter);
     }
 }

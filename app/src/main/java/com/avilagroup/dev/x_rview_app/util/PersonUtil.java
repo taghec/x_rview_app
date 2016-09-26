@@ -24,8 +24,8 @@ public class PersonUtil {
     }
 */
 
-    public static List<Person> initPersons(){
-        List<Person> persons = new ArrayList<Person>();
+    private static List<Person> initPersons(){
+        List<Person> persons = new ArrayList<>();
 
         for (int x=1; x<=100; x++) {
             persons.add(new Person("Person " + x, "Last" + x, 20 + x, "female"));
@@ -49,5 +49,9 @@ public class PersonUtil {
 
         // out of all, get a random person.
         return persons.get(new Random().nextInt(this.persons.size()));
+    }
+
+    public Person getPerson(int i) {
+        return persons.get(i);
     }
 }
