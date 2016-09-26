@@ -26,7 +26,7 @@ public class RviewAsyncListActivity extends AppCompatActivity {
 //        Log.d("ASYNC",": Ending listBinding");
 //        final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
 
-        /*
+        /**
          * Make Async call, sending the binding and layoutManager
          * along for use of adapter for data attachment.
          */
@@ -55,12 +55,6 @@ public class RviewAsyncListActivity extends AppCompatActivity {
         });
 */
         ItemTouchHelper.SimpleCallback slideCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
-/*
-            @Override
-            public int getMovementFlags(RecyclerView rvView, RecyclerView.ViewHolder vHolder) {
-                return 0;
-            }
-*/
 
             @Override
             public boolean onMove(RecyclerView rvView, RecyclerView.ViewHolder vHolder, RecyclerView.ViewHolder target) {

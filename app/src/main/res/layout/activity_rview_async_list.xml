@@ -8,8 +8,7 @@
     android:id="@+id/activity_rview_async_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.avilagroup.dev.x_rview_app.RviewAsyncListActivity"
-    android:padding="@dimen/cardview_default_radius">
+    tools:context="com.avilagroup.dev.x_rview_app.RviewAsyncListActivity">
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
@@ -28,7 +27,7 @@
         android:id="@+id/fabPersonAdd"
         android:layout_alignBottom="@+id/rv_rview_list"
         android:layout_alignEnd="@+id/rv_rview_list"
-        android:tint="@color/colorPrimaryDark"
+        android:tint="@color/colorPrimary"
         android:layout_margin="@dimen/default_gap" />
 </RelativeLayout>
 </layout>
