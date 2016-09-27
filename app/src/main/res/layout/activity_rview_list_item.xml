@@ -25,6 +25,7 @@
     <TextView
         android:id="@+id/tvPersonGender"
         android:text="@{person.gender}"
+        android:textColor='@{person.gender == "female" ? @color/colorAccent : @color/colorPrimary}'
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
