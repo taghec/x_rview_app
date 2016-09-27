@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.avilagroup.dev.x_rview_app.PersonBinding">
 
@@ -17,22 +18,35 @@
         android:layout_height="match_parent"
         android:padding="@dimen/default_gap">
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@android:dimen/notification_large_icon_height"
+            app:srcCompat="@drawable/ic_person_black_48dp"
+            android:id="@+id/ivPerson"
+            android:scaleType="fitCenter"
+            android:layout_below="@id/ivPerson"
+            android:tint="@color/cardview_dark_background"
+            android:background="@color/colorAccent"
+            android:contentDescription="@string/stg_person_img" />
+
         <TextView
             android:text="@string/stg_firstname_def"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tvFirstnameLabel"
             android:padding="@dimen/default_gap"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true" />
-
+            android:layout_below="@+id/ivPerson"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="@android:dimen/notification_large_icon_height"
+            android:textSize="18sp"
+            android:textStyle="normal|bold" />
         <TextView
             android:text="@{person.firstname}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tvFirstname"
             android:layout_toEndOf="@+id/tvFirstnameLabel"
-            android:layout_alignBaseline="@id/tvFirstnameLabel" />
+            android:layout_alignBaseline="@id/tvFirstnameLabel"/>
 
         <TextView
             android:text="@string/stg_lastname_def"
@@ -40,8 +54,9 @@
             android:layout_height="wrap_content"
             android:id="@+id/tvLastnameLabel"
             android:padding="@dimen/default_gap"
-            android:layout_below="@+id/tvFirstnameLabel"/>
-
+            android:layout_below="@+id/tvFirstnameLabel"
+            android:textSize="18sp"
+            android:textStyle="normal|bold" />
         <TextView
             android:text="@{person.lastname}"
             android:layout_width="wrap_content"
@@ -57,8 +72,9 @@
             android:id="@+id/tvAgeLabel"
             android:layout_below="@+id/tvLastnameLabel"
             android:padding="@dimen/default_gap"
-            android:layout_alignEnd="@+id/tvLastnameLabel" />
-
+            android:layout_alignEnd="@+id/tvLastnameLabel"
+            android:textSize="18sp"
+            android:textStyle="normal|bold" />
         <TextView
             android:text="@{String.valueOf(person.age)}"
             android:layout_width="wrap_content"
@@ -74,8 +90,9 @@
             android:layout_below="@+id/tvAgeLabel"
             android:padding="@dimen/default_gap"
             android:id="@+id/tvGenderLabel"
-            android:layout_alignEnd="@+id/tvAgeLabel" />
-
+            android:layout_alignEnd="@+id/tvAgeLabel"
+            android:textSize="18sp"
+            android:textStyle="normal|bold" />
         <TextView
             android:text="@{person.gender}"
             android:layout_width="wrap_content"
@@ -83,5 +100,6 @@
             android:layout_toEndOf="@id/tvGenderLabel"
             android:layout_alignBaseline="@id/tvGenderLabel"
             android:id="@+id/tvGender" />
+
     </RelativeLayout>
 </layout>
