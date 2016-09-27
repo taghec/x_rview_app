@@ -42,6 +42,7 @@
             android:textStyle="normal|bold" />
         <TextView
             android:text="@{person.firstname}"
+            tools:text="firstname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tvFirstname"
@@ -59,6 +60,7 @@
             android:textStyle="normal|bold" />
         <TextView
             android:text="@{person.lastname}"
+            tools:text="lastname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/tvLastnameLabel"
@@ -77,6 +79,7 @@
             android:textStyle="normal|bold" />
         <TextView
             android:text="@{String.valueOf(person.age)}"
+            tools:text="00"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/tvAgeLabel"
@@ -95,6 +98,7 @@
             android:textStyle="normal|bold" />
         <TextView
             android:text="@{person.gender}"
+            tools:text="gender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/tvGenderLabel"
