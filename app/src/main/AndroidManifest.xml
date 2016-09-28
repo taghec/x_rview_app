@@ -18,7 +18,8 @@
         <activity android:name=".PersonBinding" />
         <activity android:name=".RviewListActivity" />
         <activity android:name=".CviewListActivity" />
-        <activity android:name=".RviewAsyncListActivity"></activity>
+        <activity android:name=".RviewAsyncListActivity" />
+        <activity android:name=".RviewTwoAsyncListActivity"></activity>
     </application>
 
 </manifest>

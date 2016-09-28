@@ -15,4 +15,5 @@
     <string name="stg_btn_async_persons_label">ASYCN LIST</string>
     <string name="stg_person_img">Person Image</string>
     <string name="stg_adding_entry">processing new...</string>
+    <string name="stg_btn_persons2_label">Async List 2</string>
 </resources>

@@ -12,7 +12,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.avilagroup.dev.x_rview_app.MainActivity">
 
-    <TextView
+        <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/app_greeting_01"
@@ -61,13 +61,28 @@
 
         </LinearLayout>
 
-        <Button
-            android:text="@string/stg_btn_async_persons_label"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/btn_asy_persons_list" />
+            android:layout_centerHorizontal="true">
+
+            <Button
+                android:text="@string/stg_btn_async_persons_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_asy_persons_list"
+                android:layout_weight="1" />
+
+            <Button
+                android:text="@string/stg_btn_persons2_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_asy_persons2"
+                android:layout_weight="1" />
+
+        </LinearLayout>
 
     </RelativeLayout>
 </layout>

@@ -54,6 +54,18 @@ public class MainActivity extends AppCompatActivity {
                 startAsycnListActivity();
             }
         });
+
+        activityMainBinding.btnAsyPersons2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startAsyncList2Act();
+            }
+        });
+    }
+
+    private void startAsyncList2Act() {
+        Intent launchAsyncList2Activity = new Intent(MainActivity.this, RviewTwoAsyncListActivity.class);
+        startActivity(launchAsyncList2Activity);
     }
 
     private void startAsycnListActivity() {
