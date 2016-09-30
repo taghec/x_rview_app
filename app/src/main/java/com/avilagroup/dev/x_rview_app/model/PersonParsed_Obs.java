@@ -1,7 +1,13 @@
 package com.avilagroup.dev.x_rview_app.model;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.avilagroup.dev.x_rview_app.BR;
+
+import java.util.Random;
 
 /**
  * Created by taghec on 29/09/2016.
@@ -18,11 +24,52 @@ import android.os.Parcelable;
  *          * https://coderwall.com/p/vfbing/passing-objects-between-activities-in-android
  */
 
-public class PersonParsed_Obs
-        implements HumanInterface,Parcelable {
-    protected PersonParsed_Obs(Parcel in) {
+public class PersonParsed_Obs extends BaseObservable
+        implements Parcelable {
+    private String gender;
+    private int age;
+    private String firstName;
+    private String lastName;
+    private static final short LOADING_SHORT = 1000;
+
+    /**
+     * CONSTRUCTORS - both the normal obj init, and Parcelable req'd
+     */
+    public PersonParsed_Obs(String lastN, String firstN){
+        new PersonParsed_Obs(lastN, firstN, new Random().nextInt(100));
+    }
+    public PersonParsed_Obs(String lastN, String firstN, int age){
+        String[] gen = {"female", "male"};
+        String gender = gen[new Random().nextInt(gen.length)];
+        new PersonParsed_Obs(lastN, firstN, age, gender);
+    }
+    public PersonParsed_Obs(String lastN, String firstN, int age, String gender){
+        this.firstName = firstN;
+        this.lastName = lastN;
+        this.age = age;
+        this.gender = gender;
     }
 
+    /**
+     * PARCELABLE - these are Parcelable spec methods
+     *              * PersonParsed_Obs(Parcel in)
+     *              * Creator<PersonParsed_Obs> CREATOR
+     *              * describeContents()
+     *              * writeToParcel(Parcel dest, int flags)
+     * @param in    - parcel to read. it's how it gets sent here
+     */
+    protected PersonParsed_Obs(Parcel in) {
+        gender = in.readString();
+        age = in.readInt();
+        firstName = in.readString();
+        lastName = in.readString();
+    }
+
+    /**
+     * Android creates obj to go from ser<->obj using this, either
+     * individual or arrays - as needed
+     * auto-gen
+     */
     public static final Creator<PersonParsed_Obs> CREATOR = new Creator<PersonParsed_Obs>() {
         @Override
         public PersonParsed_Obs createFromParcel(Parcel in) {
@@ -35,52 +82,60 @@ public class PersonParsed_Obs
         }
     };
 
+    /**
+     * Actual serialization - see ref link above. Indicates reading back should
+     *              - follow order given here.
+     * @param dest
+     * @param flags
+     */
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(gender);
+        dest.writeInt(age);
+        dest.writeString(firstName);
+        dest.writeString(lastName);
+    }
+
     @Override
     public int describeContents() {
         return 0;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-    }
-
-    @Override
+    /**
+     * GET/SETers
+     * @return
+     */
+    @Bindable
     public String getFirstname() {
-        return null;
+        return this.firstName;
     }
-
-    @Override
-    public String getLastname() {
-        return null;
-    }
-
-    @Override
     public void setFirstname(String firstname) {
-
+        this.firstName = firstname;
+        notifyPropertyChanged(BR.firstname);
     }
-
-    @Override
+    @Bindable
+    public String getLastname() {
+        return this.lastName;
+    }
     public void setLastname(String lastname) {
-
+        this.lastName = lastname;
+        notifyPropertyChanged(BR.lastname);
     }
-
-    @Override
+    @Bindable
     public int getAge() {
-        return 0;
+        return age;
     }
-
-    @Override
-    public String getGender() {
-        return null;
-    }
-
-    @Override
     public void setAge(int age) {
-
+        this.age = age;
+        notifyPropertyChanged(BR.age);
     }
-
-    @Override
+    @Bindable
+    public String getGender() {
+        return gender;
+    }
     public void setGender(String gender) {
-
+        this.gender = gender;
+        notifyPropertyChanged(BR.gender);
     }
+
 }

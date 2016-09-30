@@ -3,12 +3,15 @@ package com.avilagroup.dev.x_rview_app.util;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.avilagroup.dev.x_rview_app.R;
 import com.avilagroup.dev.x_rview_app.databinding.ActivityRviewTwoAsyncListBinding;
 import com.avilagroup.dev.x_rview_app.model.Person;
+import com.avilagroup.dev.x_rview_app.model.PersonParsed_Obs;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,21 +19,21 @@ import java.util.List;
  */
 
 public class asyncGetPeopleTwo
-        extends AsyncTask<Void, Void, List<Person>>{
+        extends AsyncTask<Void, Void, List<PersonParsed_Obs>>{
     // syntax AsyncTask<params,units of progress,result type>
     private ProgressDialog progressDialog;
     private Context context;
-    private List<Person> mPersons;
+    private List<PersonParsed_Obs> mPersons;
     private RecyclerView.Adapter mAdapter;
     private ActivityRviewTwoAsyncListBinding binding;
 
-    public asyncGetPeopleTwo(Context context, RecyclerView.Adapter adapter, List<Person> personList) {
+    public asyncGetPeopleTwo(Context context, RecyclerView.Adapter adapter, List<PersonParsed_Obs> personList) {
         this.context = context;
         this.mAdapter = adapter;
         this.mPersons = personList;
     }
 
-    public asyncGetPeopleTwo(Context context, ActivityRviewTwoAsyncListBinding rviewBinding, List<Person> mPersons) {
+    public asyncGetPeopleTwo(Context context, ActivityRviewTwoAsyncListBinding rviewBinding, List<PersonParsed_Obs> mPersons) {
         this.context = context;
         this.binding = rviewBinding;
         this.mPersons = mPersons;
@@ -49,19 +52,30 @@ public class asyncGetPeopleTwo
     }
 
     @Override
-    protected List<Person> doInBackground(Void... params) {
+    protected List<PersonParsed_Obs> doInBackground(Void... params) {
         /**
-         * More details on PersonUtil class in the
-         * first asyncGetPeople class
+         * I'll skip creating the PersonParsedUtil for now
          */
-        final PersonUtil personUtil = new PersonUtil();
-        mPersons = personUtil.getPersons();
+        List<PersonParsed_Obs> mPersons = new ArrayList<>();
+        for (int i=0; i<100; i++){
+            mPersons.add(new PersonParsed_Obs("Last"+i+1,"First"+i+1));
+        }
 
         return mPersons;
     }
 
     @Override
-    protected void onPostExecute(List<Person> results) {
+    protected void onPostExecute(List<PersonParsed_Obs> personParsed_obses) {
+        super.onPostExecute(personParsed_obses);
+
+        if(progressDialog.isShowing())
+            progressDialog.dismiss();
+
+    }
+
+/*
+    @Override
+    protected void onPostExecute(List<PersonParsed_Obs> results) {
         super.onPostExecute(results);
 
         mAdapter = new cvPersonAdapter(context, results);
@@ -72,4 +86,5 @@ public class asyncGetPeopleTwo
         if(progressDialog.isShowing())
             progressDialog.dismiss();
     }
+*/
 }

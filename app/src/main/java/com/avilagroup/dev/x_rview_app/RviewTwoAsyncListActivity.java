@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.avilagroup.dev.x_rview_app.databinding.ActivityRviewTwoAsyncListBinding;
 import com.avilagroup.dev.x_rview_app.model.Person;
+import com.avilagroup.dev.x_rview_app.model.PersonParsed_Obs;
 import com.avilagroup.dev.x_rview_app.util.asyncGetPeopleTwo;
 import com.avilagroup.dev.x_rview_app.util.cvPersonAdapter;
 
@@ -16,7 +17,7 @@ import java.util.List;
 
 public class RviewTwoAsyncListActivity
         extends AppCompatActivity {
-    private List<Person> mPersons = new ArrayList<>();
+    private List<PersonParsed_Obs> mPersons = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public class RviewTwoAsyncListActivity
         /**
          * Complete the data async-call.
          */
-        new asyncGetPeopleTwo(this, rviewBinding, mPersons);
+        new asyncGetPeopleTwo(this, rviewBinding, mPersons).execute();
     }
 
 }
