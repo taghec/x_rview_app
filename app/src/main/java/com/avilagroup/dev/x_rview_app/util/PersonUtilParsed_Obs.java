@@ -27,7 +27,7 @@ public class PersonUtilParsed_Obs {
 
         for (int i=1; i<=DEMO_LIST_SIZE; i++){
             persons.add(new PersonParsed_Obs("Last"+i, "First"+i));
-            Log.d("PARSED: ","Generating person = ("+i+")");
+//            Log.d("PARSED: ","Generating person = ("+i+")");
         }
 
         return persons;
