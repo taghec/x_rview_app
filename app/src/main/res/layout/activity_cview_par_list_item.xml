@@ -19,7 +19,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorAccent"
+            android:background="@color/cardview_dark_background"
             android:orientation="horizontal">
 
             <ImageView
@@ -29,7 +29,7 @@
                 android:id="@+id/ivPerson"
                 android:scaleType="fitXY"
                 android:contentDescription="@string/stg_person_img"
-                android:tint="@color/cardview_dark_background"/>
+                android:tint='@{person.gender=="female" ? @color/colorAccent : @color/colorPrimary}'/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -45,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:background="@color/cardview_light_background"
-                    android:paddingStart="@dimen/cardview_default_elevation"
+                    android:paddingStart="@dimen/default_gap"
                     android:paddingEnd="@dimen/cardview_default_elevation"/>
 
                 <TextView
@@ -57,7 +57,8 @@
                     android:layout_height="match_parent"
                     android:layout_below="@id/tvPersonName"
                     android:background="@color/cardview_light_background"
-                    android:paddingStart="@dimen/cardview_default_elevation"
+                    android:textColor='@{person.gender=="female" ? @color/colorAccent : @color/colorPrimary}'
+                    android:paddingStart="@dimen/default_gap"
                     android:paddingEnd="@dimen/cardview_default_elevation"/>
 
                 <TextView

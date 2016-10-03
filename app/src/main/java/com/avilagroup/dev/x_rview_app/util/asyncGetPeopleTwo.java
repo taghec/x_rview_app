@@ -5,8 +5,10 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.avilagroup.dev.x_rview_app.R;
+import com.avilagroup.dev.x_rview_app.RviewTwoAsyncListActivity;
 import com.avilagroup.dev.x_rview_app.databinding.ActivityRviewTwoAsyncListBinding;
 import com.avilagroup.dev.x_rview_app.model.Person;
 import com.avilagroup.dev.x_rview_app.model.PersonParsed_Obs;
@@ -19,18 +21,17 @@ import java.util.List;
  */
 
 public class asyncGetPeopleTwo
-        extends AsyncTask<Void, Void, List<PersonParsed_Obs>>{
+        extends AsyncTask<Void, Void, Void>{
     // syntax AsyncTask<params,units of progress,result type>
     private ProgressDialog progressDialog;
     private Context context;
     private List<PersonParsed_Obs> mPersons;
-    private RecyclerView.Adapter mAdapter;
     private ActivityRviewTwoAsyncListBinding binding;
 
-    public asyncGetPeopleTwo(Context context, RecyclerView.Adapter adapter, List<PersonParsed_Obs> personList) {
+    public asyncGetPeopleTwo(RviewTwoAsyncListActivity context,
+                             ActivityRviewTwoAsyncListBinding binding) {
         this.context = context;
-        this.mAdapter = adapter;
-        this.mPersons = personList;
+        this.binding = binding;
     }
 
     public asyncGetPeopleTwo(Context context, ActivityRviewTwoAsyncListBinding rviewBinding, List<PersonParsed_Obs> mPersons) {
@@ -49,28 +50,54 @@ public class asyncGetPeopleTwo
                 .getString(R.string.stg_inprogress));
         progressDialog.setCancelable(false);
         progressDialog.show();
+
+        Log.d("PARSED: ","Showing progress dialog...");
     }
 
     @Override
-    protected List<PersonParsed_Obs> doInBackground(Void... params) {
-        /**
+    protected Void doInBackground(Void... params) {
+/*
+        */
+/**
          * I'll skip creating the PersonParsedUtil for now
-         */
+         *//*
+
         List<PersonParsed_Obs> mPersons = new ArrayList<>();
         for (int i=0; i<100; i++){
             mPersons.add(new PersonParsed_Obs("Last"+i+1,"First"+i+1));
         }
+*/
+        final PersonUtilParsed_Obs personUtil = new PersonUtilParsed_Obs();
+        this.mPersons = personUtil.getPersons();
+        Log.d("PARSED: ","Background call ran");
 
-        return mPersons;
+        return null;
     }
 
     @Override
-    protected void onPostExecute(List<PersonParsed_Obs> personParsed_obses) {
-        super.onPostExecute(personParsed_obses);
+    protected void onPostExecute(Void personParsed_obs) {
+        super.onPostExecute(personParsed_obs);
 
         if(progressDialog.isShowing())
             progressDialog.dismiss();
+        Log.d("PARSED: ","Dialog message removed");
 
+
+        /**
+         * Attach the binding sent to this Async call.
+         */
+        final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
+        this.binding.rvAsyncLayoutTwo.setLayoutManager(layoutManager);
+        Log.d("PARSED: ","View Holder generated");
+        /**
+         * Attach the adapter for custom class/model. Since this is now 'Observable',
+         * the thinking is that if I send changes to the data, the view will
+         * automatically adjust accordingly.
+         */
+        final RecyclerView.Adapter personAdapter = new cvPersonParsedAdapter(this.context,mPersons);
+        this.binding.rvAsyncLayoutTwo.setAdapter(personAdapter);
+
+        Log.d("PARSED: ","Data bound to adapter");
     }
 
 /*

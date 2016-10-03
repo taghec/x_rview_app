@@ -26,22 +26,23 @@ import java.util.Random;
 
 public class PersonParsed_Obs extends BaseObservable
         implements Parcelable {
-    private String gender;
-    private int age;
-    private String firstName;
-    private String lastName;
+    private String gender = "female";
+    private int age = 0;
+    private String firstName = "firstName";
+    private String lastName = "lastName";
     private static final short LOADING_SHORT = 1000;
+    private static final String[] GEN_LIST = {"female", "male"};
 
     /**
      * CONSTRUCTORS - both the normal obj init, and Parcelable req'd
      */
     public PersonParsed_Obs(String lastN, String firstN){
-        new PersonParsed_Obs(lastN, firstN, new Random().nextInt(100));
+        this(lastN, firstN, new Random().nextInt(100));
     }
     public PersonParsed_Obs(String lastN, String firstN, int age){
-        String[] gen = {"female", "male"};
-        String gender = gen[new Random().nextInt(gen.length)];
-        new PersonParsed_Obs(lastN, firstN, age, gender);
+//        String[] gen = {"female", "male"};
+//        String gender = gen[new Random().nextInt(gen.length)];
+        this(lastN, firstN, age, GEN_LIST[new Random().nextInt(GEN_LIST.length)]);
     }
     public PersonParsed_Obs(String lastN, String firstN, int age, String gender){
         this.firstName = firstN;
