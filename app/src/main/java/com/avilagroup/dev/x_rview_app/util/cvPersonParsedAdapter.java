@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.avilagroup.dev.x_rview_app.BR;
 import com.avilagroup.dev.x_rview_app.R;
@@ -21,11 +22,11 @@ import java.util.List;
 public class cvPersonParsedAdapter
         extends RecyclerView.Adapter<cvPersonParsedAdapter.CviewHolder>{
     private List<PersonParsed_Obs> personList;
-//    private Context mContext;
+    private Context mContext;
 
     // CONSTRUCTOR
     public cvPersonParsedAdapter(Context context, List<PersonParsed_Obs> personList){
-//        this.mContext = context;
+        this.mContext = context;
         this.personList = personList;
     }
 
@@ -44,7 +45,21 @@ public class cvPersonParsedAdapter
         holder.getBinding().setVariable(BR.person, person);
         holder.getBinding().executePendingBindings();
 
-        // Attach click response below. Nothing for now.
+        // Attach click response below.
+        holder.getBinding().cvCviewList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PersonParsed_Obs mPerson = personList.get(holder.getAdapterPosition());
+                Toast.makeText(mContext,
+                        "clicked: " + mPerson.getFirstname(),
+                        Toast.LENGTH_SHORT).show();
+
+                if( mPerson.getGender().equalsIgnoreCase("female"))
+                    mPerson.setGender("male");
+                else
+                    mPerson.setGender("female");
+            }
+        });
     }
 
     @Override
