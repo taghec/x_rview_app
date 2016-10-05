@@ -3,17 +3,15 @@ package com.avilagroup.dev.x_rview_app;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.Toast;
 
 import com.avilagroup.dev.x_rview_app.databinding.ActivityRviewTwoAsyncListBinding;
-import com.avilagroup.dev.x_rview_app.model.Person;
 import com.avilagroup.dev.x_rview_app.model.PersonParsed_Obs;
 import com.avilagroup.dev.x_rview_app.util.asyncGetPeopleTwo;
-import com.avilagroup.dev.x_rview_app.util.cvPersonAdapter;
+import com.avilagroup.dev.x_rview_app.util.cvPersonParsedAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,20 +90,38 @@ public class RviewTwoAsyncListActivity
          */
         ItemTouchHelper.SimpleCallback slideCallback = new ItemTouchHelper
                 .SimpleCallback(0,ItemTouchHelper.RIGHT){
+//            cvPersonParsedAdapter personAdapter = (cvPersonParsedAdapter) rviewBinding.rvAsyncLayoutTwo.getAdapter();
 
-            @Override
             public boolean onMove(RecyclerView rV, RecyclerView.ViewHolder vH, RecyclerView.ViewHolder targ) {
                 return false;
             }
 
             @Override
-            public void onSwiped(RecyclerView.ViewHolder vH, int dir) {
+            public void onSwiped(RecyclerView.ViewHolder vH, int direction) {
                 String msgSwipe = "swiped: ";
-                msgSwipe += "Loc= " + vH.getAdapterPosition();
+                int pos = vH.getAdapterPosition();
+                msgSwipe += "Loc= " + pos;
                 Toast.makeText(RviewTwoAsyncListActivity.this,
                         msgSwipe, Toast.LENGTH_SHORT).show();
+
+                // custom method
+//                personAdapter.itemRemove(vH.getAdapterPosition());
+            }
+
+            /**
+             * See notes in original RView Async implement
+             */
+            @Override
+            public float getSwipeThreshold(RecyclerView.ViewHolder vH) {
+                float factor = 1.5f;
+                return super.getSwipeThreshold(vH)*factor;
             }
         };
+
+        /**
+         * I'll overwrite the class w own implementation. This is an attempt
+         * to include the adapter itself so I can update it on gesture results.
+         */
         ItemTouchHelper touchHelper = new ItemTouchHelper(slideCallback);
         touchHelper.attachToRecyclerView(rviewBinding.rvAsyncLayoutTwo);
     }

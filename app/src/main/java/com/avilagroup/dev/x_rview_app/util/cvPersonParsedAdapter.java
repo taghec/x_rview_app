@@ -60,6 +60,7 @@ public class cvPersonParsedAdapter
                     mPerson.setGender("female");
             }
         });
+
     }
 
     @Override
@@ -78,5 +79,10 @@ public class cvPersonParsedAdapter
         public ActivityCviewParListItemBinding getBinding() {
             return rviewListItemBinding;
         }
+    }
+
+    public void itemRemove(int pos){
+        personList.remove(pos);
+        notifyItemRemoved(pos);
     }
 }

@@ -19,7 +19,8 @@
         <activity android:name=".RviewListActivity" />
         <activity android:name=".CviewListActivity" />
         <activity android:name=".RviewAsyncListActivity" />
-        <activity android:name=".RviewTwoAsyncListActivity"></activity>
+        <activity android:name=".RviewTwoAsyncListActivity" />
+        <activity android:name=".BillsAsyncActivity"></activity>
     </application>
 
 </manifest>
