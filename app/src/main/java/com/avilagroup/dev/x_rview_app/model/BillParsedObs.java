@@ -42,7 +42,7 @@ public class BillParsedObs
 
         this.isTangible = 1;
         this.dateCreated = new Date().getTime();
-        this.dateExpires = dateCreated + 30*ONEDAY_MIL;
+        this.dateExpires = dateCreated + (new Random().nextInt(30))*ONEDAY_MIL;
     }
 
     /**

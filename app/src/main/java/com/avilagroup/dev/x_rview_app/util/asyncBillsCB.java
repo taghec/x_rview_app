@@ -2,7 +2,7 @@ package com.avilagroup.dev.x_rview_app.util;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 
 import com.avilagroup.dev.x_rview_app.BillsAsyncActivity;
@@ -22,12 +22,10 @@ public class asyncBillsCB
     private cvBillAdapter adapter;
     private Context context;
     private List<BillParsedObs> bills;
+    final static private int DEMO_BILLS = 20;
 
     /**
      * CONSTRUCTOR
-     * @param context
-     * @param mainBinding
-     * @param rvBillsAdapter
      */
     public asyncBillsCB(BillsAsyncActivity context,
                         ActivityBillsAsyncBinding mainBinding,
@@ -36,7 +34,6 @@ public class asyncBillsCB
         this.binding = mainBinding;
         this.adapter = rvBillsAdapter;
     }
-
 
     /**
      * Async call overwrites
@@ -54,7 +51,7 @@ public class asyncBillsCB
     protected Void doInBackground(Void... params) {
         this.bills = new ArrayList<>();
 
-        for (int i=0; i<100; i++) {
+        for (int i = 0; i< DEMO_BILLS; i++) {
             bills.add(new BillParsedObs("Bill Name"+10+i,(new Random().nextLong())));
         }
         return null;
@@ -68,5 +65,9 @@ public class asyncBillsCB
         binding.rvBillsAsync.setAdapter(adapter);
         Log.d("BILLS:"," PostExec CB - bills: " + bills.size() + " adapter: " + adapter.getItemCount());
         adapter.notifyDataSetChanged();
+
+        ItemTouchHelper.SimpleCallback slideCB = new HelperBillsCB((BillsAsyncActivity) context,adapter,bills);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(slideCB);
+        touchHelper.attachToRecyclerView(binding.rvBillsAsync);
     }
 }
