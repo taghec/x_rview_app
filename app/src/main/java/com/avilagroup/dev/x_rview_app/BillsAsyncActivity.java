@@ -8,8 +8,10 @@ import android.support.v7.widget.RecyclerView;
 
 import com.avilagroup.dev.x_rview_app.databinding.ActivityBillsAsyncBinding;
 import com.avilagroup.dev.x_rview_app.model.BillParsedObs;
+import com.avilagroup.dev.x_rview_app.util.asyncBillsCB;
 import com.avilagroup.dev.x_rview_app.util.cvBillAdapter;
 
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +21,7 @@ public class BillsAsyncActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle(R.string.app_name + " - Bills");
+        setTitle(getString(R.string.app_name) + " - Bills");
 //        setContentView(R.layout.activity_bills_async);
 
         final ActivityBillsAsyncBinding mainBinding = DataBindingUtil
@@ -29,5 +31,9 @@ public class BillsAsyncActivity
 
         List<BillParsedObs> listBills = new ArrayList<>();
         final RecyclerView.Adapter rvBillsAdapter = new cvBillAdapter(this, listBills);
+//        mainBinding.rvBillsAsync.setAdapter(rvBillsAdapter);
+
+        new asyncBillsCB(this, mainBinding, (cvBillAdapter) rvBillsAdapter).execute();
     }
+
 }

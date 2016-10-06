@@ -82,6 +82,13 @@
                 android:id="@+id/btn_asy_persons2"
                 android:layout_weight="1" />
 
+            <Button
+                android:text="@string/btn_async_bills_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_asy_bills"
+                android:layout_weight="1" />
+
         </LinearLayout>
 
     </RelativeLayout>

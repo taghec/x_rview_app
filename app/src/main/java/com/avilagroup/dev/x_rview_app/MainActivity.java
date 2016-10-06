@@ -61,6 +61,18 @@ public class MainActivity extends AppCompatActivity {
                 startAsyncList2Act();
             }
         });
+
+        activityMainBinding.btnAsyBills.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startBillsAct();
+            }
+        });
+    }
+
+    private void startBillsAct() {
+        Intent launchBillsActivity = new Intent(MainActivity.this, BillsAsyncActivity.class);
+        startActivity(launchBillsActivity);
     }
 
     private void startAsyncList2Act() {

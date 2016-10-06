@@ -16,4 +16,5 @@
     <string name="stg_person_img">Person Image</string>
     <string name="stg_adding_entry">processing new...</string>
     <string name="stg_btn_persons2_label">Async List 2</string>
+    <string name="btn_async_bills_label">BILLS</string>
 </resources>

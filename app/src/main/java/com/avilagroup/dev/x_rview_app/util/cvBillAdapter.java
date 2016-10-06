@@ -16,13 +16,15 @@ import com.avilagroup.dev.x_rview_app.databinding.ActivityBillsAsyncItemBinding;
 import com.avilagroup.dev.x_rview_app.model.BillParsedObs;
 
 import java.util.List;
+import java.text.DateFormat;
 
 
 /**
  * Created by temp on 05/10/2016.
  */
-public class cvBillAdapter extends RecyclerView.Adapter<cvBillAdapter.cvHolder> {
-    List<BillParsedObs> mBillList;
+public class cvBillAdapter
+        extends RecyclerView.Adapter<cvBillAdapter.cvHolder> {
+    private List<BillParsedObs> mBillList;
     private Context mContext;
 
     public cvBillAdapter(Context context, List<BillParsedObs> listBills) {
@@ -37,7 +39,7 @@ public class cvBillAdapter extends RecyclerView.Adapter<cvBillAdapter.cvHolder> 
      * @return
      */
     @Override
-    public cvBillAdapter.cvHolder onCreateViewHolder(ViewGroup parent, int vType) {
+    public cvHolder onCreateViewHolder(ViewGroup parent, int vType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.activity_bills_async_item,parent,false);
 
@@ -47,13 +49,19 @@ public class cvBillAdapter extends RecyclerView.Adapter<cvBillAdapter.cvHolder> 
     @Override
     public void onBindViewHolder(final cvHolder holder, int position) {
         final BillParsedObs bill = mBillList.get(holder.getAdapterPosition());
+        final ActivityBillsAsyncItemBinding mBinding = holder.getBinding();
 
-        holder.getBinding().setVariable(BR.bill, bill);
+        // Date is saved as long. Change format before setting on field.
+        String stgDateExp = DateFormat.getDateInstance().format(bill.getExpirationDate());
+
+        mBinding.setVariable(BR.bill, bill);
+        mBinding.setVariable(BR.stg_exp_date, stgDateExp);
+        mBinding.executePendingBindings();
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mBillList.size();
     }
 
     /**
@@ -71,5 +79,13 @@ public class cvBillAdapter extends RecyclerView.Adapter<cvBillAdapter.cvHolder> 
         public ActivityBillsAsyncItemBinding getBinding() {
             return cvItemBinding;
         }
+    }
+
+    /**
+     * Custom methods
+     */
+    public void remove(int pos){
+        mBillList.remove(pos);
+        notifyItemRemoved(pos);
     }
 }

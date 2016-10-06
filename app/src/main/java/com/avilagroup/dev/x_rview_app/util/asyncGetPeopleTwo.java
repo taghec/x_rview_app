@@ -97,7 +97,7 @@ public class asyncGetPeopleTwo
         final RecyclerView.Adapter personAdapter = new cvPersonParsedAdapter(this.context,mPersons);
         this.binding.rvAsyncLayoutTwo.setAdapter(personAdapter);
 
-        Log.d("PARSED: ","Data bound to adapter");
+        Log.d("PARSED: ","Data bound to adapter. Items: " + personAdapter.getItemCount());
     }
 
 /*
