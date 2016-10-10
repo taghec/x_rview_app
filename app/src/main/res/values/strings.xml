@@ -17,4 +17,8 @@
     <string name="stg_adding_entry">processing new...</string>
     <string name="stg_btn_persons2_label">Async List 2</string>
     <string name="btn_async_bills_label">BILLS</string>
+    <string name="title_activity_bills_tab">BillsTabActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="stg_btn_bills_tab_label">BILLS TABED</string>
 </resources>

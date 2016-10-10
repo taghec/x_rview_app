@@ -20,7 +20,16 @@
         <activity android:name=".CviewListActivity" />
         <activity android:name=".RviewAsyncListActivity" />
         <activity android:name=".RviewTwoAsyncListActivity" />
-        <activity android:name=".BillsAsyncActivity"></activity>
+        <activity android:name=".BillsAsyncActivity" />
+        <activity
+            android:name=".BillsTabActivity"
+            android:label="@string/title_activity_bills_tab"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.avilagroup.dev.x_rview_app.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

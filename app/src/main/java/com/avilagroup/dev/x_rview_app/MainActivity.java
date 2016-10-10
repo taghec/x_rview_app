@@ -68,6 +68,18 @@ public class MainActivity extends AppCompatActivity {
                 startBillsAct();
             }
         });
+
+        activityMainBinding.btnBillsTabAct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startBillsTabAct();
+            }
+        });
+    }
+
+    private void startBillsTabAct() {
+        Intent launchBillsTabActivity = new Intent(MainActivity.this, BillsTabActivity.class);
+        startActivity(launchBillsTabActivity);
     }
 
     private void startBillsAct() {

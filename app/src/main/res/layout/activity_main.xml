@@ -34,8 +34,57 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/llay_btns_row01">
+
+            <Button
+                android:text="@string/stg_btn_async_persons_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_asy_persons_list"
+                android:layout_weight="1" />
+
+            <Button
+                android:text="@string/stg_btn_persons2_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_asy_persons2"
+                android:layout_weight="1" />
+
+            <Button
+                android:text="@string/btn_async_bills_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_asy_bills"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/llay_btns_row01"
+            android:layout_alignParentStart="true"
+            android:id="@+id/llay_btns_row02">
+
+            <Button
+                android:text="@string/stg_btn_bills_tab_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_bills_tab_act"
+                android:layout_below="@+id/linearLayout2"
+                android:layout_alignParentStart="true" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true">
+            android:layout_alignParentStart="true"
+            android:id="@+id/llay_btns_row03">
 
             <Button
                 android:text="@string/stg_btn_rvlist_label"
@@ -57,36 +106,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/btn_personlist"
                 android:padding="@dimen/activity_horizontal_margin"
-                android:layout_weight="1" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true">
-
-            <Button
-                android:text="@string/stg_btn_async_persons_label"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/btn_asy_persons_list"
-                android:layout_weight="1" />
-
-            <Button
-                android:text="@string/stg_btn_persons2_label"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/btn_asy_persons2"
-                android:layout_weight="1" />
-
-            <Button
-                android:text="@string/btn_async_bills_label"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/btn_asy_bills"
                 android:layout_weight="1" />
 
         </LinearLayout>
