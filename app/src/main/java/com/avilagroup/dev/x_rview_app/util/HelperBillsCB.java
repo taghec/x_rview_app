@@ -44,7 +44,16 @@ public class HelperBillsCB extends ItemTouchHelper.SimpleCallback{
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
         list.remove(pos);
 //        adapter = new cvBillAdapter(context, list);
-        adapter.notifyDataSetChanged();
+
+        /**
+         * Using the correct call here will automatically enable Android's
+         * item animation. W out it, shifts of list occur in a haphazard way.
+         * Changing from ...DataSetChanged to ...ItemRemoved triggers the slow
+         * animation of shifting the list up on removed items. Nor further action
+         * required unless a custom animation is required.
+         */
+//        adapter.notifyDataSetChanged(); // Breaks animations. See: http://stackoverflow.com/questions/29831083/how-to-use-itemanimator-in-a-recyclerview
+        adapter.notifyItemRemoved(pos);
     }
 
     @Override

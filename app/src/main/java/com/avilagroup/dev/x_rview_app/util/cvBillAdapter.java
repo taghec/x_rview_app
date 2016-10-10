@@ -1,5 +1,6 @@
 package com.avilagroup.dev.x_rview_app.util;
 
+import android.animation.LayoutTransition;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
@@ -42,6 +43,8 @@ public class cvBillAdapter
     public cvHolder onCreateViewHolder(ViewGroup parent, int vType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.activity_bills_async_item,parent,false);
+//        LayoutTransition rvTransition = new LayoutTransition();
+//        parent.setLayoutTransition(rvTransition);
 
         return new cvHolder(v);
     }

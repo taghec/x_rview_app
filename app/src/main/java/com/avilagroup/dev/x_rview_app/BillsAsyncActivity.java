@@ -1,10 +1,13 @@
 package com.avilagroup.dev.x_rview_app;
 
+import android.animation.LayoutTransition;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.avilagroup.dev.x_rview_app.databinding.ActivityBillsAsyncBinding;
@@ -41,6 +44,18 @@ public class BillsAsyncActivity
         rvBillsAdapter = new cvBillAdapter(this, listBills);
 //        mainBinding.rvBillsAsync.setAdapter(rvBillsAdapter);
         new asyncBillsCB(this, mainBinding, (cvBillAdapter) rvBillsAdapter).execute();
+
+        /**
+         * Animation - default implementation
+         *
+         * Ex from: https://www.sitepoint.com/mastering-complex-lists-with-the-android-recyclerview/
+         */
+        RecyclerView.ItemAnimator rvAnimator = new DefaultItemAnimator();
+//        rvAnimator.setRemoveDuration(1000); // this will slide-remove slower
+//        rvAnimator.setAddDuration(1000); // effect only when adding
+//        rvAnimator.setChangeDuration(1000);
+//        rvAnimator.setMoveDuration(1000);
+//        mainBinding.rvBillsAsync.setItemAnimator(rvAnimator);
 
         /**
          * GESTURE RESPONSE
