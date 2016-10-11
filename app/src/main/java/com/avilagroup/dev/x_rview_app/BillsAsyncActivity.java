@@ -50,7 +50,7 @@ public class BillsAsyncActivity
          *
          * Ex from: https://www.sitepoint.com/mastering-complex-lists-with-the-android-recyclerview/
          */
-        RecyclerView.ItemAnimator rvAnimator = new DefaultItemAnimator();
+//        RecyclerView.ItemAnimator rvAnimator = new DefaultItemAnimator();
 //        rvAnimator.setRemoveDuration(1000); // this will slide-remove slower
 //        rvAnimator.setAddDuration(1000); // effect only when adding
 //        rvAnimator.setChangeDuration(1000);
