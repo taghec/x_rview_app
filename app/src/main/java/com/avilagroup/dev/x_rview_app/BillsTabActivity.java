@@ -51,7 +51,7 @@ public class BillsTabActivity
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.containerBillsTab);
+        mViewPager = (ViewPager) findViewById(R.id.vpager_billstab_act);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabsBillsTab);
