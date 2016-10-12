@@ -43,8 +43,6 @@ public class cvBillAdapter
     public cvHolder onCreateViewHolder(ViewGroup parent, int vType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.activity_bills_async_item,parent,false);
-//        LayoutTransition rvTransition = new LayoutTransition();
-//        parent.setLayoutTransition(rvTransition);
 
         return new cvHolder(v);
     }

@@ -12,6 +12,12 @@ import com.avilagroup.dev.x_rview_app.BillsAsyncActivity;
 import com.avilagroup.dev.x_rview_app.databinding.ActivityBillsAsyncBinding;
 import com.avilagroup.dev.x_rview_app.model.BillParsedObs;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -36,6 +42,7 @@ public class asyncBillsCB
         this.context = context;
         this.binding = mainBinding;
         this.adapter = rvBillsAdapter;
+        this.bills = new ArrayList<>();
     }
 
     /**
@@ -52,9 +59,74 @@ public class asyncBillsCB
 
     @Override
     protected Void doInBackground(Void... params) {
-        this.bills = new ArrayList<>();
+//        this.bills = new ArrayList<>();
+        int DEMO_I = 0;
+        String json_data = "DEMO data";
+        String json_file = "bills.json";
+        boolean haveLocalList = false;
 
-        for (int i = 0; i< DEMO_BILLS; i++) {
+        /**
+         * testing persistence
+         *
+         * see https://developer.android.com/training/basics/data-storage/files.html
+         */
+/*
+        FileOutputStream oFile;
+        try{
+            oFile = context.openFileOutput(json_file,Context.MODE_PRIVATE);
+            oFile.write(json_data.getBytes());
+            oFile.close();
+*/
+/*
+            DEMO_I++;   // we'll shift by one if we'll use demo entry
+            bills.add(new BillParsedObs(json_data,new Random().nextLong()));
+*//*
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+*/
+        /**
+         * try just FileInputStream. saving should happen somewhere else
+         * this is more for img readers (byte reader). For txt/chr files,
+         * consider using FileReader
+         *
+         *  now using it.  see: http://alvinalexander.com/blog/post/java/how-open-read-file-java-string-array-list
+         *
+         *  For a list of lines, create List<> and each line is a 'record' to create an obj for.
+         *
+         *  Notice this will assume the file already exists, which means it should be
+         *  saved/recorded by a different step. This method is only data-getter
+         *
+         *  Need to get the abs path to the file before calling FileReader, otherwise it'll assume
+         *  a file on root path.
+         */
+//        FileInputStream iFile;
+        try{
+            FileReader iFile = new FileReader(context.getFileStreamPath(json_file));
+//            String filePath = context.getFileStreamPath(json_file).getPath();
+//            Log.d("ASYNC CB:","Background process. IO File: " + filePath);
+            BufferedReader iBuffer = new BufferedReader(iFile);
+            json_data = iBuffer.readLine();
+            iBuffer.close();
+            iFile.close();
+            haveLocalList = !haveLocalList;  // set to true
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (haveLocalList) {
+            DEMO_I++;
+            // for a read list, loop until we've got all lines in. for now, just single line
+            bills.add(new BillParsedObs(json_data, new Random().nextLong()));
+        }
+
+        /**
+         * If there is no existing list, then create demo data
+         */
+        for (int i = DEMO_I; i< DEMO_BILLS; i++) {
             bills.add(new BillParsedObs("Bill Name"+10+i,(new Random().nextLong())));
         }
         return null;
