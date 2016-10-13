@@ -70,22 +70,16 @@ public class asyncBillsCB
          *
          * see https://developer.android.com/training/basics/data-storage/files.html
          */
-/*
         FileOutputStream oFile;
         try{
             oFile = context.openFileOutput(json_file,Context.MODE_PRIVATE);
             oFile.write(json_data.getBytes());
             oFile.close();
-*/
-/*
-            DEMO_I++;   // we'll shift by one if we'll use demo entry
-            bills.add(new BillParsedObs(json_data,new Random().nextLong()));
-*//*
-
+//            DEMO_I++;   // we'll shift by one if we'll use demo entry
+//            bills.add(new BillParsedObs(json_data,new Random().nextLong()));
         } catch (Exception e) {
             e.printStackTrace();
         }
-*/
         /**
          * try just FileInputStream. saving should happen somewhere else
          * this is more for img readers (byte reader). For txt/chr files,
@@ -104,8 +98,8 @@ public class asyncBillsCB
 //        FileInputStream iFile;
         try{
             FileReader iFile = new FileReader(context.getFileStreamPath(json_file));
-//            String filePath = context.getFileStreamPath(json_file).getPath();
-//            Log.d("ASYNC CB:","Background process. IO File: " + filePath);
+            String filePath = context.getFileStreamPath(json_file).getPath();
+            Log.d("ASYNC CB:","Background process. IO File: " + filePath);
             BufferedReader iBuffer = new BufferedReader(iFile);
             json_data = iBuffer.readLine();
             iBuffer.close();

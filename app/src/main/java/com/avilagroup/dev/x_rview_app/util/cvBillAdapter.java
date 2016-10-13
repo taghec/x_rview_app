@@ -21,7 +21,7 @@ import java.text.DateFormat;
 
 
 /**
- * Created by temp on 05/10/2016.
+ * Created by taghec on 05/10/2016.
  */
 public class cvBillAdapter
         extends RecyclerView.Adapter<cvBillAdapter.cvHolder> {

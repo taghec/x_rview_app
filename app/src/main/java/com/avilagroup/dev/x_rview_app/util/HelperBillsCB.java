@@ -39,9 +39,14 @@ public class HelperBillsCB extends ItemTouchHelper.SimpleCallback{
     public void onSwiped(RecyclerView.ViewHolder vH, int dir) {
         String msg = "swiped: ";
         int pos = vH.getAdapterPosition();
+//        BillParsedObs billChanged = list.get(pos);
         msg += "Loc = " + pos;
 
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+/*
+        billChanged.setName(billChanged.getName() + "X");
+        list.set(pos, billChanged);
+*/
         list.remove(pos);
 //        adapter = new cvBillAdapter(context, list);
 
@@ -54,6 +59,7 @@ public class HelperBillsCB extends ItemTouchHelper.SimpleCallback{
          */
 //        adapter.notifyDataSetChanged(); // Breaks animations. See: http://stackoverflow.com/questions/29831083/how-to-use-itemanimator-in-a-recyclerview
         adapter.notifyItemRemoved(pos);
+//        adapter.notifyItemChanged(pos);
     }
 
     @Override
