@@ -13,10 +13,12 @@ import com.avilagroup.dev.x_rview_app.databinding.ActivityBillsAsyncBinding;
 import com.avilagroup.dev.x_rview_app.model.BillParsedObs;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +33,9 @@ public class asyncBillsCB
     private cvBillAdapter adapter;
     private Context context;
     private List<BillParsedObs> bills;
+    private List<String> records_data = new ArrayList<>();
     final static private int DEMO_BILLS = 20;
+    private final static String RECS_FILE_LOCAL = "bills.json";
 
     /**
      * CONSTRUCTOR
@@ -60,26 +64,7 @@ public class asyncBillsCB
     @Override
     protected Void doInBackground(Void... params) {
 //        this.bills = new ArrayList<>();
-        int DEMO_I = 0;
-        String json_data = "DEMO data";
-        String json_file = "bills.json";
-        boolean haveLocalList = false;
 
-        /**
-         * testing persistence
-         *
-         * see https://developer.android.com/training/basics/data-storage/files.html
-         */
-        FileOutputStream oFile;
-        try{
-            oFile = context.openFileOutput(json_file,Context.MODE_PRIVATE);
-            oFile.write(json_data.getBytes());
-            oFile.close();
-//            DEMO_I++;   // we'll shift by one if we'll use demo entry
-//            bills.add(new BillParsedObs(json_data,new Random().nextLong()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         /**
          * try just FileInputStream. saving should happen somewhere else
          * this is more for img readers (byte reader). For txt/chr files,
@@ -97,32 +82,60 @@ public class asyncBillsCB
          */
 //        FileInputStream iFile;
         try{
-            FileReader iFile = new FileReader(context.getFileStreamPath(json_file));
-            String filePath = context.getFileStreamPath(json_file).getPath();
-            Log.d("ASYNC CB:","Background process. IO File: " + filePath);
-            BufferedReader iBuffer = new BufferedReader(iFile);
-            json_data = iBuffer.readLine();
-            iBuffer.close();
+            FileReader iFile = new FileReader(context.getFileStreamPath(RECS_FILE_LOCAL));
+            records_data = _parseLocalRecords(iFile);
+//            String filePath = context.getFileStreamPath(json_file).getPath();
+//            Log.d("ASYNC CB:","Background process. IO File: " + filePath);
             iFile.close();
-            haveLocalList = !haveLocalList;  // set to true
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        if (haveLocalList) {
-            DEMO_I++;
-            // for a read list, loop until we've got all lines in. for now, just single line
-            bills.add(new BillParsedObs(json_data, new Random().nextLong()));
+        if (records_data.size()>1) {
+            /**
+             * loop to get all recs from list. start from second row
+             * after the 'format' first row - ie: from first rec
+             */
+            Log.d("ASYNC CB","Local records found. Total lines = " + records_data.size());
+            for (int i = 1; i<records_data.size(); i++){
+                bills.add(new BillParsedObs(records_data.get(i), new Random().nextLong()));
+            }
+        } else {
+            /**
+             * haveLocalList = false, then demo data
+             */
+            Log.d("ASYNC CB","No local records found. Creating DEMO data.");
+            bills.add(new BillParsedObs("DEMO DATA"+100,new Random().nextLong()));
+            for (int i = 1; i< DEMO_BILLS; i++) {
+                bills.add(new BillParsedObs("Bill Name"+10+i,(new Random().nextLong())));
+            }
         }
 
         /**
-         * If there is no existing list, then create demo data
+         * testing persistence - saving to local list file
+         *
+         * see https://developer.android.com/training/basics/data-storage/files.html
          */
-        for (int i = DEMO_I; i< DEMO_BILLS; i++) {
-            bills.add(new BillParsedObs("Bill Name"+10+i,(new Random().nextLong())));
+        try{
+/*
+            FileOutputStream oFile;
+            oFile = context.openFileOutput(RECS_FILE_LOCAL,Context.MODE_PRIVATE);
+            records_data.add("txt");   // rec the file format on first row
+            oFile.write(records_data.get(DEMO_I).getBytes());  // firt row is format
+            DEMO_I++;
+            records_data.add("DEMO Data");     // first real rec, demo txt for now
+            oFile.write(records_data.get(DEMO_I).getBytes());  // second row is demo rec
+            oFile.close();
+*/
+            FileWriter oFile = new FileWriter(context.getFileStreamPath(RECS_FILE_LOCAL));
+            _storeLocalRecords(oFile, records_data);
+            oFile.close();
+//            DEMO_I++;   // we'll shift by one if we'll use demo entry
+//            bills.add(new BillParsedObs(json_data,new Random().nextLong()));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
         return null;
     }
 
@@ -134,6 +147,7 @@ public class asyncBillsCB
         binding.rvBillsAsync.setAdapter(adapter);
         Log.d("BILLS:"," PostExec CB - bills: " + bills.size() + " adapter: " + adapter.getItemCount());
         adapter.notifyDataSetChanged();
+
 
         /**
          * This works - see notes in main act
@@ -155,5 +169,68 @@ public class asyncBillsCB
 
 //        LayoutTransition rvTransition = new LayoutTransition();
 //        binding.rvBillsAsync.setLayoutTransition(rvTransition);
+    }
+
+
+
+    /**
+     * Will probably become a class that I can use from other
+     * activities. For now, just keep this local to the call so I can
+     * store results after the call has been made.
+     *
+     * @param file
+     * @param records
+     * @throws IOException
+     */
+    private void _storeLocalRecords(FileWriter file,
+                                    List<String> records)
+            throws IOException {
+        String rec;
+        // completely demo for now
+        records.clear();
+        records.add("txt\n");
+        records.add("DEMO Data");
+
+        BufferedWriter oBuffer = new BufferedWriter(file);
+        for (int i = 0; i< records.size(); i++){
+            rec = records.get(i);
+            Log.d("ASYNC CB", "Storing rec: " + rec);
+            oBuffer.write(rec);
+        }
+        oBuffer.close();
+    }
+
+    /**
+     * Method to parse local found data. Could be list of rows,
+     * or eventually become the json file that would be expected from
+     * url call.
+     *
+     * @param file
+     * @return
+     */
+    private List<String> _parseLocalRecords(FileReader file) {
+        List<String> records = new ArrayList<>();
+        String newRec;
+
+        try {
+            BufferedReader iBuffer = new BufferedReader(file);
+            while ((newRec=iBuffer.readLine()) != null){
+                Log.d("ASYNC CB","Record found. Adding to list: " + newRec);
+                records.add(newRec);
+            }
+            iBuffer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        switch (records.get(0)){
+            case "txt":
+                // just remove format, and return demo lines of txt list
+//                records.remove(0);    // don't remove the line, need it next time
+            case "json":
+                // parse the single json line of rec's
+                // this will eventually return the Bills list
+        }
+        return records;
     }
 }
