@@ -1,10 +1,7 @@
 package com.avilagroup.dev.x_rview_app.util;
 
-import android.animation.LayoutTransition;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 
@@ -14,9 +11,6 @@ import com.avilagroup.dev.x_rview_app.model.BillParsedObs;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -29,12 +23,12 @@ import java.util.Random;
  */
 public class asyncBillsCB
         extends AsyncTask<Void, Void, Void>{
+    private Context context;
     private final ActivityBillsAsyncBinding binding;
     private cvBillAdapter adapter;
-    private Context context;
     private List<BillParsedObs> bills;
     private List<String> records_data = new ArrayList<>();
-    final static private int DEMO_BILLS = 20;
+    private final static int DEMO_BILLS = 20;
     private final static String RECS_FILE_LOCAL = "bills.json";
 
     /**
