@@ -2,8 +2,11 @@ package com.avilagroup.dev.x_rview_app.util;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.view.View;
 
 import com.avilagroup.dev.x_rview_app.BillsAsyncActivity;
 import com.avilagroup.dev.x_rview_app.databinding.ActivityBillsAsyncBinding;
@@ -11,10 +14,12 @@ import com.avilagroup.dev.x_rview_app.model.BillParsedObs;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.IllegalFormatException;
 import java.util.List;
 import java.util.Random;
 
@@ -23,12 +28,13 @@ import java.util.Random;
  */
 public class asyncBillsCB
         extends AsyncTask<Void, Void, Void>{
+    private final File devFile;
     private Context context;
     private final ActivityBillsAsyncBinding binding;
     private cvBillAdapter adapter;
     private List<BillParsedObs> bills;
     private List<String> records_data = new ArrayList<>();
-    private final static int DEMO_BILLS = 20;
+    private final static int DEMO_BILLS = 5;
     private final static String RECS_FILE_LOCAL = "bills.json";
 
     /**
@@ -41,6 +47,7 @@ public class asyncBillsCB
         this.binding = mainBinding;
         this.adapter = rvBillsAdapter;
         this.bills = new ArrayList<>();
+        this.devFile = context.getFileStreamPath(RECS_FILE_LOCAL);
     }
 
     /**
@@ -76,8 +83,8 @@ public class asyncBillsCB
          */
 //        FileInputStream iFile;
         try{
-            FileReader iFile = new FileReader(context.getFileStreamPath(RECS_FILE_LOCAL));
-            records_data = _parseLocalRecords(iFile);
+            FileReader iFile = new FileReader(devFile);
+            records_data = _readLocalRecords(iFile);
 //            String filePath = context.getFileStreamPath(json_file).getPath();
 //            Log.d("ASYNC CB:","Background process. IO File: " + filePath);
             iFile.close();
@@ -85,24 +92,16 @@ public class asyncBillsCB
             e.printStackTrace();
         }
 
-        if (records_data.size()>1) {
-            /**
-             * loop to get all recs from list. start from second row
-             * after the 'format' first row - ie: from first rec
-             */
-            Log.d("ASYNC CB","Local records found. Total lines = " + records_data.size());
-            for (int i = 1; i<records_data.size(); i++){
-                bills.add(new BillParsedObs(records_data.get(i), new Random().nextLong()));
-            }
-        } else {
-            /**
-             * haveLocalList = false, then demo data
-             */
-            Log.d("ASYNC CB","No local records found. Creating DEMO data.");
-            bills.add(new BillParsedObs("DEMO DATA"+100,new Random().nextLong()));
-            for (int i = 1; i< DEMO_BILLS; i++) {
-                bills.add(new BillParsedObs("Bill Name"+10+i,(new Random().nextLong())));
-            }
+        /**
+         * Got a file, now attempt reading/parsing contents
+         *
+         * Otherwise, return DEMO data
+         */
+        try {
+            bills = _parseRecords(records_data);
+
+        } catch (IllegalFormatException e) {
+            e.printStackTrace();
         }
 
         /**
@@ -133,6 +132,7 @@ public class asyncBillsCB
         return null;
     }
 
+
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
@@ -141,7 +141,6 @@ public class asyncBillsCB
         binding.rvBillsAsync.setAdapter(adapter);
         Log.d("BILLS:"," PostExec CB - bills: " + bills.size() + " adapter: " + adapter.getItemCount());
         adapter.notifyDataSetChanged();
-
 
         /**
          * This works - see notes in main act
@@ -156,40 +155,53 @@ public class asyncBillsCB
 //        rvAnimator.setMoveDuration(1000);
 //        binding.rvBillsAsync.setItemAnimator(rvAnimator);
 
-
         ItemTouchHelper.SimpleCallback slideCB = new HelperBillsCB((BillsAsyncActivity) context,adapter,bills);
         ItemTouchHelper touchHelper = new ItemTouchHelper(slideCB);
         touchHelper.attachToRecyclerView(binding.rvBillsAsync);
 
 //        LayoutTransition rvTransition = new LayoutTransition();
 //        binding.rvBillsAsync.setLayoutTransition(rvTransition);
+
+        /**
+         * FAB action - add new Bill (random for now)
+         */
+        binding.fabBillAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int lastBill = adapter.getItemCount();
+                Snackbar.make(v, "Adding new Bill. New total: " + lastBill + 1,
+                        Snackbar.LENGTH_SHORT).setAction("Action",null).show();
+                bills.add(new BillParsedObs("New Bill",new Random().nextLong()));
+                adapter.notifyItemInserted(lastBill + 1);
+            }
+        });
     }
-
-
 
     /**
      * Will probably become a class that I can use from other
      * activities. For now, just keep this local to the call so I can
      * store results after the call has been made.
      *
-     * @param file
-     * @param records
+     * @param file      - store txt stream into file
+     * @param records   - each record will be saved either in txt (each row a rec),
+     *                      or possibly as json data (json).
      * @throws IOException
      */
     private void _storeLocalRecords(FileWriter file,
                                     List<String> records)
             throws IOException {
-        String rec;
+//        String rec;
         // completely demo for now
-        records.clear();
-        records.add("txt\n");
-        records.add("DEMO Data");
+//        records.clear();
+//        records.add("txt\n");
+//        records.add("DEMO Data");
 
         BufferedWriter oBuffer = new BufferedWriter(file);
-        for (int i = 0; i< records.size(); i++){
-            rec = records.get(i);
+
+        oBuffer.write("txt\n");
+        for (String rec : records) {
             Log.d("ASYNC CB", "Storing rec: " + rec);
-            oBuffer.write(rec);
+            oBuffer.write(rec + "\n");
         }
         oBuffer.close();
     }
@@ -199,10 +211,10 @@ public class asyncBillsCB
      * or eventually become the json file that would be expected from
      * url call.
      *
-     * @param file
-     * @return
+     * @param file - file to be attempted to take input from
+     * @return      - list of txt rows read from input file
      */
-    private List<String> _parseLocalRecords(FileReader file) {
+    private List<String> _readLocalRecords(FileReader file) {
         List<String> records = new ArrayList<>();
         String newRec;
 
@@ -217,14 +229,62 @@ public class asyncBillsCB
             e.printStackTrace();
         }
 
-        switch (records.get(0)){
-            case "txt":
-                // just remove format, and return demo lines of txt list
-//                records.remove(0);    // don't remove the line, need it next time
-            case "json":
-                // parse the single json line of rec's
-                // this will eventually return the Bills list
-        }
         return records;
     }
+
+    /**
+     * _parseRecords - this will take a txt stream, w first row indicating formatting of rest
+     * of rows.  Options include txt = each row is a record, json = single row w obj/arry formatted
+     * in json to be parsed using gson (possibly).
+     *
+     * @param rows - string records. first should be single key for file format (txt,json,etc)
+     * @return      - List of 'Bills' objs
+     * @throws IllegalFormatException
+     */
+    private List<BillParsedObs> _parseRecords(List<String> rows)
+            throws IllegalFormatException{
+        List<BillParsedObs> records = new ArrayList<>();
+        String format = "DEMO Bill";
+
+        if (rows.size()>0) {
+            format = rows.get(0);
+            rows.remove(0);
+        } else {
+            // unsupported size, make safe
+            rows.clear();
+            rows.add(format);
+        }
+
+        switch (format) {
+            case "txt":
+                /**
+                 * loop to get all recs from list. start from second row
+                 * after the 'format' first row - ie: from first rec
+                 */
+                Log.d("ASYNC CB", "Local records found. Total lines = " + rows.size());
+/*
+                for (int i = 1; i<records_data.size(); i++){
+                    bills.add(new BillParsedObs(records_data.get(i), new Random().nextLong()));
+                }
+*/
+                for (String row : rows) {
+                    records.add(new BillParsedObs(row, new Random().nextLong()));
+                }
+                break;
+            case "json":
+                Log.d("ASYNC CB", "Local records found. JSON records found.");
+                // parse w gson
+                //break;
+            default:
+                // if format not supported, create demo data.
+                Log.d("ASYNC CB", "No records found or format (" + format + ") not supported. Returning DEMO");
+                records.add(new BillParsedObs("DEMO DATA" + 100, new Random().nextLong()));
+                for (int i = 1; i < DEMO_BILLS; i++) {
+                    records.add(new BillParsedObs("Bill Name" + 10 + i, (new Random().nextLong())));
+                }
+        }
+
+        return records;
+    }
+
 }
