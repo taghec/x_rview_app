@@ -2,7 +2,6 @@ package com.avilagroup.dev.x_rview_app.util;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
@@ -12,11 +11,7 @@ import com.avilagroup.dev.x_rview_app.BillsAsyncActivity;
 import com.avilagroup.dev.x_rview_app.databinding.ActivityBillsAsyncBinding;
 import com.avilagroup.dev.x_rview_app.model.BillParsedObs;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.IllegalFormatException;
@@ -28,14 +23,14 @@ import java.util.Random;
  */
 public class asyncBillsCB
         extends AsyncTask<Void, Void, Void>{
-    private final File devFile;
     private Context context;
     private final ActivityBillsAsyncBinding binding;
     private cvBillAdapter adapter;
     private List<BillParsedObs> bills;
     private List<String> records_data = new ArrayList<>();
-    private final static int DEMO_BILLS = 5;
     private final static String RECS_FILE_LOCAL = "bills.json";
+    private final static String SAVE_FORMAT = "txt";
+    private StorageTools storageTools;
 
     /**
      * CONSTRUCTOR
@@ -47,7 +42,7 @@ public class asyncBillsCB
         this.binding = mainBinding;
         this.adapter = rvBillsAdapter;
         this.bills = new ArrayList<>();
-        this.devFile = context.getFileStreamPath(RECS_FILE_LOCAL);
+        this.storageTools = new StorageTools(context, RECS_FILE_LOCAL);
     }
 
     /**
@@ -81,6 +76,7 @@ public class asyncBillsCB
          *  Need to get the abs path to the file before calling FileReader, otherwise it'll assume
          *  a file on root path.
          */
+/*
 //        FileInputStream iFile;
         try{
             FileReader iFile = new FileReader(devFile);
@@ -91,43 +87,52 @@ public class asyncBillsCB
         } catch (IOException e) {
             e.printStackTrace();
         }
+*/
+        records_data = storageTools.getDevRecords();
 
         /**
          * Got a file, now attempt reading/parsing contents
          *
          * Otherwise, return DEMO data
          */
+/*
         try {
             bills = _parseRecords(records_data);
 
         } catch (IllegalFormatException e) {
             e.printStackTrace();
         }
+*/
+//        if (!records_data.isEmpty())
+            bills = storageTools.parseRecords(records_data);
 
         /**
          * testing persistence - saving to local list file
          *
          * see https://developer.android.com/training/basics/data-storage/files.html
          */
-        try{
 /*
-            FileOutputStream oFile;
-            oFile = context.openFileOutput(RECS_FILE_LOCAL,Context.MODE_PRIVATE);
-            records_data.add("txt");   // rec the file format on first row
-            oFile.write(records_data.get(DEMO_I).getBytes());  // firt row is format
-            DEMO_I++;
-            records_data.add("DEMO Data");     // first real rec, demo txt for now
-            oFile.write(records_data.get(DEMO_I).getBytes());  // second row is demo rec
-            oFile.close();
+        try{
+//            FileOutputStream oFile;
+//            oFile = context.openFileOutput(RECS_FILE_LOCAL,Context.MODE_PRIVATE);
+//            records_data.add("txt");   // rec the file format on first row
+//            oFile.write(records_data.get(DEMO_I).getBytes());  // firt row is format
+//            DEMO_I++;
+//            records_data.add("DEMO Data");     // first real rec, demo txt for now
+//            oFile.write(records_data.get(DEMO_I).getBytes());  // second row is demo rec
+//            oFile.close();
+//            FileWriter oFile = new FileWriter(context.getFileStreamPath(RECS_FILE_LOCAL));
+//            _storeLocalRecords(oFile, records_data);
+//            oFile.close();
+////            DEMO_I++;   // we'll shift by one if we'll use demo entry
+////            bills.add(new BillParsedObs(json_data,new Random().nextLong()));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 */
-            FileWriter oFile = new FileWriter(context.getFileStreamPath(RECS_FILE_LOCAL));
-            _storeLocalRecords(oFile, records_data);
-            oFile.close();
-//            DEMO_I++;   // we'll shift by one if we'll use demo entry
-//            bills.add(new BillParsedObs(json_data,new Random().nextLong()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // sending the actual output from parsing will get either records, or DEMO data.
+        // On return, we'll have saved something - no longer empty.
+        storageTools.saveRecords(bills, SAVE_FORMAT);
 
         return null;
     }
@@ -169,15 +174,22 @@ public class asyncBillsCB
             @Override
             public void onClick(View v) {
                 int lastBill = adapter.getItemCount();
-                Snackbar.make(v, "Adding new Bill. New total: " + lastBill + 1,
-                        Snackbar.LENGTH_SHORT).setAction("Action",null).show();
                 bills.add(new BillParsedObs("New Bill",new Random().nextLong()));
-                adapter.notifyItemInserted(lastBill + 1);
+                // send the last added to dev storage, offset the zero
+                storageTools.saveNewRecord(bills.get(lastBill));
+                lastBill++;
+                Snackbar.make(v, "Adding new Bill. New total: " + lastBill,
+                        Snackbar.LENGTH_SHORT).setAction("Action",null).show();
+                adapter.notifyItemInserted(lastBill);
+
             }
         });
     }
 
-    /**
+
+/*
+    */
+/**
      * Will probably become a class that I can use from other
      * activities. For now, just keep this local to the call so I can
      * store results after the call has been made.
@@ -186,7 +198,8 @@ public class asyncBillsCB
      * @param records   - each record will be saved either in txt (each row a rec),
      *                      or possibly as json data (json).
      * @throws IOException
-     */
+     *//*
+
     private void _storeLocalRecords(FileWriter file,
                                     List<String> records)
             throws IOException {
@@ -205,34 +218,11 @@ public class asyncBillsCB
         }
         oBuffer.close();
     }
+*/
 
-    /**
-     * Method to parse local found data. Could be list of rows,
-     * or eventually become the json file that would be expected from
-     * url call.
-     *
-     * @param file - file to be attempted to take input from
-     * @return      - list of txt rows read from input file
-     */
-    private List<String> _readLocalRecords(FileReader file) {
-        List<String> records = new ArrayList<>();
-        String newRec;
-
-        try {
-            BufferedReader iBuffer = new BufferedReader(file);
-            while ((newRec=iBuffer.readLine()) != null){
-                Log.d("ASYNC CB","Record found. Adding to list: " + newRec);
-                records.add(newRec);
-            }
-            iBuffer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return records;
-    }
-
-    /**
+/*
+    */
+/**
      * _parseRecords - this will take a txt stream, w first row indicating formatting of rest
      * of rows.  Options include txt = each row is a record, json = single row w obj/arry formatted
      * in json to be parsed using gson (possibly).
@@ -240,7 +230,8 @@ public class asyncBillsCB
      * @param rows - string records. first should be single key for file format (txt,json,etc)
      * @return      - List of 'Bills' objs
      * @throws IllegalFormatException
-     */
+     *//*
+
     private List<BillParsedObs> _parseRecords(List<String> rows)
             throws IllegalFormatException{
         List<BillParsedObs> records = new ArrayList<>();
@@ -257,16 +248,20 @@ public class asyncBillsCB
 
         switch (format) {
             case "txt":
-                /**
+                */
+/**
                  * loop to get all recs from list. start from second row
                  * after the 'format' first row - ie: from first rec
-                 */
+                 *//*
+
                 Log.d("ASYNC CB", "Local records found. Total lines = " + rows.size());
+*/
 /*
                 for (int i = 1; i<records_data.size(); i++){
                     bills.add(new BillParsedObs(records_data.get(i), new Random().nextLong()));
                 }
-*/
+*//*
+
                 for (String row : rows) {
                     records.add(new BillParsedObs(row, new Random().nextLong()));
                 }
@@ -286,5 +281,36 @@ public class asyncBillsCB
 
         return records;
     }
+*/
+
+/*
+    */
+/**
+     * Method to parse local found data. Could be list of rows,
+     * or eventually become the json file that would be expected from
+     * url call.
+     *
+     * @param file - file to be attempted to take input from
+     * @return      - list of txt rows read from input file
+     *//*
+
+    private List<String> _readLocalRecords(FileReader file) {
+        List<String> records = new ArrayList<>();
+        String newRec;
+
+        try {
+            BufferedReader iBuffer = new BufferedReader(file);
+            while ((newRec=iBuffer.readLine()) != null){
+                Log.d("ASYNC CB","Record found. Adding to list: " + newRec);
+                records.add(newRec);
+            }
+            iBuffer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return records;
+    }
+*/
 
 }

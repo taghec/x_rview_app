@@ -14,6 +14,7 @@ import java.util.List;
  * Created by taghec on 06/10/2016.
  */
 public class HelperBillsCB extends ItemTouchHelper.SimpleCallback{
+    private static final String SAVE_FILE = "bills.json";
     Context context;
     RecyclerView.Adapter adapter;
     List<BillParsedObs> list;
@@ -37,6 +38,7 @@ public class HelperBillsCB extends ItemTouchHelper.SimpleCallback{
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder vH, int dir) {
+        StorageTools storageTools = new StorageTools(context, SAVE_FILE);
         String msg = "swiped: ";
         int pos = vH.getAdapterPosition();
 //        BillParsedObs billChanged = list.get(pos);
@@ -48,6 +50,7 @@ public class HelperBillsCB extends ItemTouchHelper.SimpleCallback{
         list.set(pos, billChanged);
 */
         list.remove(pos);
+        storageTools.removeRecord(pos);
 //        adapter = new cvBillAdapter(context, list);
 
         /**
