@@ -81,6 +81,14 @@ public class BillsAsyncActivity
 //        touchHelper.attachToRecyclerView(mainBinding.rvBillsAsync);
     }
 
+    /**
+     * Implementation based on description here:
+     * http://stackoverflow.com/questions/34340703/super-onactivityresult-inside-adapter-class-android
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
