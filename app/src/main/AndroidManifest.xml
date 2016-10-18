@@ -30,6 +30,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.avilagroup.dev.x_rview_app.MainActivity" />
         </activity>
+        <activity android:name=".BillBinding"></activity>
     </application>
 
 </manifest>

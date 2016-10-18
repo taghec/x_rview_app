@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.avilagroup.dev.x_rview_app.BillBinding">
+
+    <data>
+        <variable
+            name="bill"
+            type="com.avilagroup.dev.x_rview_app.model.BillParsedObs"
+            />
+        <variable
+            name="stg_exp_date"
+            type="String"/>
+    </data>
+<RelativeLayout
+    android:id="@+id/activity_bill_binding"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/default_gap">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@android:dimen/notification_large_icon_height"
+        app:srcCompat="@drawable/ic_person_outline_black_48dp"
+        android:id="@+id/ivBill"
+        android:scaleType="fitCenter"
+        android:layout_below="@id/ivBill"
+        android:tint="@color/colorAccent"
+        android:background="@color/cardview_light_background"
+        android:contentDescription="@string/stg_bill_img" />
+
+    <TextView
+        android:text="@string/stg_billname_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvBillnameLabel"
+        android:padding="@dimen/default_gap"
+        android:layout_below="@+id/ivBill"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="@android:dimen/notification_large_icon_height"
+        android:textSize="18sp"
+        android:textStyle="normal|bold" />
+    <TextView
+        android:text="@{bill.name}"
+        tools:text="bill name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvBillname"
+        android:layout_toEndOf="@+id/tvBillnameLabel"
+        android:layout_alignBaseline="@id/tvBillnameLabel"/>
+
+    <TextView
+        android:text="@string/stg_billinv_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvInvoiceLabel"
+        android:padding="@dimen/default_gap"
+        android:textSize="18sp"
+        android:textStyle="normal|bold"
+        android:layout_below="@+id/tvBillnameLabel"
+        android:layout_alignEnd="@+id/tvBillnameLabel" />
+
+    <TextView
+        android:text="@{bill.invoice}"
+        tools:text="invoice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/tvInvoiceLabel"
+        android:layout_alignBaseline="@id/tvInvoiceLabel"
+        android:id="@+id/tvInvoice" />
+
+    <TextView
+        android:text="@string/stg_amntdue_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvAmntDueLabel"
+        android:padding="@dimen/default_gap"
+        android:textSize="18sp"
+        android:textStyle="normal|bold"
+        android:layout_below="@+id/tvInvoiceLabel"
+        android:layout_alignEnd="@+id/tvInvoiceLabel" />
+
+    <TextView
+        android:text="@{String.valueOf(bill.amountDue)}"
+        tools:text="0.0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvAmntDue"
+        android:layout_alignBaseline="@+id/tvAmntDueLabel"
+        android:layout_alignBottom="@+id/tvAmntDueLabel"
+        android:layout_toEndOf="@+id/tvAmntDueLabel" />
+
+    <TextView
+        android:text="@string/stg_expdate_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/default_gap"
+        android:id="@+id/tvExpDateLabel"
+        android:textSize="18sp"
+        android:textStyle="normal|bold"
+        android:layout_below="@+id/tvAmntDueLabel"
+        android:layout_alignEnd="@+id/tvAmntDueLabel" />
+
+    <TextView
+        android:text="@{stg_exp_date}"
+        tools:text="01/01/1990"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/tvExpDateLabel"
+        android:layout_alignBaseline="@id/tvExpDateLabel"
+        android:id="@+id/tvExpDate" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/ic_media_previous"
+            android:id="@+id/ibBillPrev"
+            android:layout_weight="1"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/ic_media_next"
+            android:id="@+id/ibBillNext"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>
+</layout>

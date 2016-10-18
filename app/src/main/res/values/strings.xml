@@ -21,4 +21,9 @@
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="stg_btn_bills_tab_label">BILLS TABED</string>
+    <string name="stg_bill_img">Bill Entry</string>
+    <string name="stg_billname_label">Bill Name:</string>
+    <string name="stg_billinv_label">Invoice:</string>
+    <string name="stg_amntdue_label">Amount:</string>
+    <string name="stg_expdate_label">Due Date:</string>
 </resources>

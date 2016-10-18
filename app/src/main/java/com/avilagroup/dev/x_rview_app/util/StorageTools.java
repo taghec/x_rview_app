@@ -174,4 +174,11 @@ public class StorageTools {
         bills.remove(pos);
         saveRecords(bills, "txt");
     }
+
+    public BillParsedObs getDevRec(int loc) {
+        List<BillParsedObs> bills = parseRecords(getDevRecords());
+
+        return bills.get(loc);
+    }
+
 }

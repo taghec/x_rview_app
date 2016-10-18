@@ -2,14 +2,17 @@ package com.avilagroup.dev.x_rview_app.util;
 
 import android.animation.LayoutTransition;
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.avilagroup.dev.x_rview_app.BR;
+import com.avilagroup.dev.x_rview_app.BillBinding;
 import com.avilagroup.dev.x_rview_app.BillsAsyncActivity;
 import com.avilagroup.dev.x_rview_app.R;
 import com.avilagroup.dev.x_rview_app.databinding.ActivityBillsAsyncBinding;
@@ -48,16 +51,37 @@ public class cvBillAdapter
     }
 
     @Override
-    public void onBindViewHolder(final cvHolder holder, int position) {
-        final BillParsedObs bill = mBillList.get(holder.getAdapterPosition());
+    public void onBindViewHolder(final cvHolder holder, final int position) {
+        final int pos = holder.getAdapterPosition();
+        final BillParsedObs bill = mBillList.get(pos);
         final ActivityBillsAsyncItemBinding mBinding = holder.getBinding();
-
         // Date is saved as long. Change format before setting on field.
         String stgDateExp = DateFormat.getDateInstance().format(bill.getExpirationDate());
 
         mBinding.setVariable(BR.bill, bill);
         mBinding.setVariable(BR.stg_exp_date, stgDateExp);
         mBinding.executePendingBindings();
+
+        /**
+         * Set up a call to edit items on the list.  I'll take the pos on
+         * the adapter, and send the bill there to a new activity to allow editing.
+         */
+        mBinding.cvBillItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, "bill selected: " + pos, Toast.LENGTH_SHORT).show();
+
+                startBillBindingActivity(pos);
+            }
+        });
+    }
+
+    private void startBillBindingActivity(int pos) {
+        Intent actBillBinding = new Intent(mContext, BillBinding.class);
+        actBillBinding.putExtra("listLoc", pos);
+        actBillBinding.putExtra("listSize", mBillList.size());
+
+        mContext.startActivity(actBillBinding);
     }
 
     @Override
