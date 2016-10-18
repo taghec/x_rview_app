@@ -6,6 +6,7 @@
     tools:context="com.avilagroup.dev.x_rview_app.BillBinding">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="bill"
             type="com.avilagroup.dev.x_rview_app.model.BillParsedObs"
@@ -13,6 +14,9 @@
         <variable
             name="stg_exp_date"
             type="String"/>
+        <variable
+            name="editMode"
+            type="boolean"/>
     </data>
 <RelativeLayout
     android:id="@+id/activity_bill_binding"
@@ -49,7 +53,17 @@
         android:layout_height="wrap_content"
         android:id="@+id/tvBillname"
         android:layout_toEndOf="@+id/tvBillnameLabel"
-        android:layout_alignBaseline="@id/tvBillnameLabel"/>
+        android:layout_alignBaseline="@id/tvBillnameLabel"
+        android:visibility='@{editMode ? View.INVISIBLE : View.VISIBLE}'/>
+    <EditText
+        android:hint="@{bill.name}"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/etBillname"
+        android:layout_toEndOf="@id/tvBillnameLabel"
+        android:layout_alignBaseline="@id/tvBillnameLabel"
+        android:visibility='@{editMode ? View.VISIBLE : View.INVISIBLE}'
+        />
 
     <TextView
         android:text="@string/stg_billinv_label"
@@ -117,7 +131,8 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:id="@+id/llBillNAV">
 
         <ImageButton
             android:layout_width="wrap_content"

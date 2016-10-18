@@ -1,6 +1,7 @@
 package com.avilagroup.dev.x_rview_app;
 
 import android.animation.LayoutTransition;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import com.avilagroup.dev.x_rview_app.databinding.ActivityBillsAsyncBinding;
 import com.avilagroup.dev.x_rview_app.model.BillParsedObs;
 import com.avilagroup.dev.x_rview_app.util.HelperBillsCB;
+import com.avilagroup.dev.x_rview_app.util.StorageTools;
 import com.avilagroup.dev.x_rview_app.util.asyncBillsCB;
 import com.avilagroup.dev.x_rview_app.util.cvBillAdapter;
 
@@ -21,8 +23,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BillsAsyncActivity
-        extends AppCompatActivity {
+        extends AppCompatActivity
+        implements cvBillAdapter.SelectionCallBack{
+    private static final String SAVE_FILE = "bills.json";
     RecyclerView.Adapter rvBillsAdapter;
+    List<BillParsedObs> listBills = new ArrayList<>();
+    ActivityBillsAsyncBinding mainBinding;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +38,7 @@ public class BillsAsyncActivity
         /**
          * BINDING AND LAYOUT MANAGER
          */
-        final ActivityBillsAsyncBinding mainBinding = DataBindingUtil
+        mainBinding = DataBindingUtil
                 .setContentView(this, R.layout.activity_bills_async);
         final RecyclerView.LayoutManager rvLayoutManager = new LinearLayoutManager(this);
         mainBinding.rvBillsAsync.setLayoutManager(rvLayoutManager);
@@ -40,7 +46,6 @@ public class BillsAsyncActivity
         /**
          * ADAPTER, LIST MANAGER, AND ASYNC CALL
          */
-        List<BillParsedObs> listBills = new ArrayList<>();
         rvBillsAdapter = new cvBillAdapter(this, listBills);
 //        mainBinding.rvBillsAsync.setAdapter(rvBillsAdapter);
         new asyncBillsCB(this, mainBinding, (cvBillAdapter) rvBillsAdapter).execute();
@@ -76,4 +81,27 @@ public class BillsAsyncActivity
 //        touchHelper.attachToRecyclerView(mainBinding.rvBillsAsync);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+//        StorageTools storageTools = new StorageTools(this, SAVE_FILE);
+
+        if( requestCode == 1 && resultCode == RESULT_OK) {
+//            int loc = data.getIntExtra("listLoc",0);
+//            int loc = 2;
+//            listBills.set(loc,storageTools.getDevRec(loc));
+//            rvBillsAdapter.notifyItemChanged(loc);
+            new asyncBillsCB(this, mainBinding, (cvBillAdapter) rvBillsAdapter).execute();
+        }
+    }
+
+    @Override
+    public void itemSelection(int pos, int size, String msg) {
+        Intent actBillBinding = new Intent(this, BillBinding.class);
+        actBillBinding.putExtra("listLoc", pos);
+        actBillBinding.putExtra("listSize", size);
+
+//        mContext.startActivity(actBillBinding);
+        startActivityForResult(actBillBinding, 1);
+    }
 }

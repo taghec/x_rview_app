@@ -181,4 +181,11 @@ public class StorageTools {
         return bills.get(loc);
     }
 
+    public void updateRecord(BillParsedObs bill, int loc) {
+        List<String> existing = getDevRecords();
+        List<BillParsedObs> bills = parseRecords(existing);
+
+        bills.set(loc, bill);
+        saveRecords(bills, "txt");
+    }
 }

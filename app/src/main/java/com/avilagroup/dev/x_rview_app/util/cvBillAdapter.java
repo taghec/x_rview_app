@@ -1,11 +1,14 @@
 package com.avilagroup.dev.x_rview_app.util;
 
 import android.animation.LayoutTransition;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,10 +33,26 @@ public class cvBillAdapter
         extends RecyclerView.Adapter<cvBillAdapter.cvHolder> {
     private List<BillParsedObs> mBillList;
     private Context mContext;
+    private SelectionCallBack selectionCallBack;
+    Activity activity;
 
     public cvBillAdapter(Context context, List<BillParsedObs> listBills) {
         this.mContext = context;
         this.mBillList = listBills;
+        activity = (BillsAsyncActivity) context;
+
+        selectionCallBack = (SelectionCallBack) context;
+    }
+
+    public interface SelectionCallBack {
+        /**
+         * CB interf for when an item is selected
+         *
+         * See: http://stackoverflow.com/questions/34340703/super-onactivityresult-inside-adapter-class-android
+         * @param pos
+         * @param msg
+         */
+        void itemSelection(int pos, int size, String msg);
     }
 
     /**
@@ -52,8 +71,7 @@ public class cvBillAdapter
 
     @Override
     public void onBindViewHolder(final cvHolder holder, final int position) {
-        final int pos = holder.getAdapterPosition();
-        final BillParsedObs bill = mBillList.get(pos);
+        final BillParsedObs bill = mBillList.get(position);
         final ActivityBillsAsyncItemBinding mBinding = holder.getBinding();
         // Date is saved as long. Change format before setting on field.
         String stgDateExp = DateFormat.getDateInstance().format(bill.getExpirationDate());
@@ -69,19 +87,13 @@ public class cvBillAdapter
         mBinding.cvBillItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int pos = holder.getAdapterPosition();
                 Toast.makeText(mContext, "bill selected: " + pos, Toast.LENGTH_SHORT).show();
 
-                startBillBindingActivity(pos);
+//                startBillBindingActivity(pos);
+                selectionCallBack.itemSelection(pos, mBillList.size(), "item selected");
             }
         });
-    }
-
-    private void startBillBindingActivity(int pos) {
-        Intent actBillBinding = new Intent(mContext, BillBinding.class);
-        actBillBinding.putExtra("listLoc", pos);
-        actBillBinding.putExtra("listSize", mBillList.size());
-
-        mContext.startActivity(actBillBinding);
     }
 
     @Override

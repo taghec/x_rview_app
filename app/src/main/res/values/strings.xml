@@ -26,4 +26,7 @@
     <string name="stg_billinv_label">Invoice:</string>
     <string name="stg_amntdue_label">Amount:</string>
     <string name="stg_expdate_label">Due Date:</string>
+    <string name="menu_bill_edit">Edit Bill</string>
+    <string name="stg_menu_bill_edit">Edit Bill</string>
+    <string name="stg_menu_bill_save">Save Bill</string>
 </resources>
