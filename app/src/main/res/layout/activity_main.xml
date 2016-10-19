@@ -76,6 +76,12 @@
                 android:id="@+id/btn_bills_tab_act"
                 android:layout_below="@+id/linearLayout2"
                 android:layout_alignParentStart="true" />
+
+            <Button
+                android:text="@string/stg_btn_notes_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_notes_act" />
         </LinearLayout>
 
         <LinearLayout

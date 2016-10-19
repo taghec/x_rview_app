@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.avilagroup.dev.x_rview_app.databinding.ActivityMainBinding;
+import com.avilagroup.dev.x_rview_app.notes.NotesActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -75,6 +76,18 @@ public class MainActivity extends AppCompatActivity {
                 startBillsTabAct();
             }
         });
+
+        activityMainBinding.btnNotesAct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startNotesAct();
+            }
+        });
+    }
+
+    private void startNotesAct() {
+        Intent intent = new Intent(MainActivity.this, NotesActivity.class);
+        startActivity(intent);
     }
 
     private void startBillsTabAct() {
