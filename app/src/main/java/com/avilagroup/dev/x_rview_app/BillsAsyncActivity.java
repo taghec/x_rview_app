@@ -99,8 +99,15 @@ public class BillsAsyncActivity
 //            int loc = 2;
 //            listBills.set(loc,storageTools.getDevRec(loc));
 //            rvBillsAdapter.notifyItemChanged(loc);
-            new asyncBillsCB(this, mainBinding, (cvBillAdapter) rvBillsAdapter).execute();
+/*
+            rvBillsAdapter = new cvBillAdapter(BillsAsyncActivity.this, listBills);
+            new asyncBillsCB(BillsAsyncActivity.this, mainBinding, (cvBillAdapter) rvBillsAdapter).execute();
+            rvBillsAdapter.notifyDataSetChanged();
+*/
+
+            recreate();
         }
+
     }
 
     @Override
