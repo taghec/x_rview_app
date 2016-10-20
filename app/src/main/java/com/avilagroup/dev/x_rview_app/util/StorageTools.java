@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.avilagroup.dev.x_rview_app.model.BillParsedObs;
+import com.avilagroup.dev.x_rview_app.notes.model.NoteThingObs;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -13,6 +14,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.IllegalFormatException;
 import java.util.List;
 import java.util.Random;
@@ -61,6 +63,28 @@ public class StorageTools {
 
         return records;
     }
+/*
+    // OVERLOAD the method to use this for more than just one class
+    public List<String> getDevRecords(Class<? extends List> aClass) {
+        List<String> records = new ArrayList<>();
+        String rec;
+
+        try{
+            BufferedReader iBuffer = new BufferedReader(new FileReader(devFile));
+            while ((rec=iBuffer.readLine()) != null) {
+                Log.d("ASYNC CB","Record found. Adding to list: " + rec);
+                records.add(rec);
+            }
+            iBuffer.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return records;
+    }
+*/
 
     /**
      * parseRecords - this will take a txt stream, w first row indicating formatting of rest
@@ -111,6 +135,42 @@ public class StorageTools {
                 records.add(new BillParsedObs("DEMO DATA" + 100, new Random().nextLong()));
                 for (int i = 1; i < DEMO_RECS; i++) {
                     records.add(new BillParsedObs("Bill Name" + 10 + i, (new Random().nextLong())));
+                }
+        }
+
+        return records;
+    }
+    // generalize the process for more class types
+    public List<NoteThingObs> parseRecords(List<String> rows_to_parse, NoteThingObs temp_rec) throws IllegalFormatException {
+        String format = "DEMO Note";
+        List<NoteThingObs> records = new ArrayList<>();
+
+        if (!rows_to_parse.isEmpty()) {
+            format = rows_to_parse.get(0);
+            rows_to_parse.remove(0);
+        } else {
+            // unsupported, make safe
+            rows_to_parse.clear();
+            rows_to_parse.add(format);
+        }
+
+        /**
+         * Start parsing
+         */
+        switch (format) {
+            case "txt":
+                for (String row : rows_to_parse) {
+                    records.add(new NoteThingObs(row));
+                }
+                Log.d("ASYNC STORAGE","Records added - " + records.toString());
+                break;
+            case "json":
+                break;
+            default:
+                Log.d("ASYNC STORAGE", "No records found or format (" + format + ") not supported. Returning DEMO");
+                records.add(new NoteThingObs("DEMO DATA" + 100));
+                for (int i = 1; i < DEMO_RECS; i++) {
+                    records.add(new NoteThingObs("Bill Name" + 10 + i));
                 }
         }
 
@@ -188,4 +248,5 @@ public class StorageTools {
         bills.set(loc, bill);
         saveRecords(bills, "txt");
     }
+
 }

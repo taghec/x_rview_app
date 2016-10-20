@@ -1,10 +1,14 @@
 package com.avilagroup.dev.x_rview_app.notes.util;
 
 import android.app.Activity;
+import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.avilagroup.dev.x_rview_app.R;
+import com.avilagroup.dev.x_rview_app.databinding.ContentNotesItemBinding;
 import com.avilagroup.dev.x_rview_app.notes.NotesActivity;
 import com.avilagroup.dev.x_rview_app.notes.model.NoteThingObs;
 
@@ -45,7 +49,9 @@ public class NotesAdapter
      */
     @Override
     public RecHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.content_notes_item,parent,false);
+        return new RecHolder(v);
     }
 
     @Override
@@ -62,9 +68,20 @@ public class NotesAdapter
      * Define the RecHolder Class
      */
     public class RecHolder extends RecyclerView.ViewHolder {
+        private final ContentNotesItemBinding itemBinding;
 
-        public RecHolder(View itemView) {
-            super(itemView);
+        /**
+         * CREATOR - method for custom class. Attaches the layout to binding.
+         *
+         * @param v     - the view after inflating for each item.
+         */
+        public RecHolder(View v) {
+            super(v);
+            itemBinding = DataBindingUtil.bind(v);
+        }
+
+        public ContentNotesItemBinding getBinding() {
+            return itemBinding;
         }
     }
 

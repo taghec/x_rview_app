@@ -14,6 +14,7 @@ import com.avilagroup.dev.x_rview_app.R;
 import com.avilagroup.dev.x_rview_app.databinding.ActivityNotesBinding;
 import com.avilagroup.dev.x_rview_app.notes.model.NoteThingObs;
 import com.avilagroup.dev.x_rview_app.notes.util.NotesAdapter;
+import com.avilagroup.dev.x_rview_app.notes.util.NotesAsyncCB;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +53,13 @@ public class NotesActivity extends AppCompatActivity {
         final RecyclerView.LayoutManager rvManager = new LinearLayoutManager(this);
         notesBinding.rvlayout.rvNotes.setLayoutManager(rvManager);
         rvAdapter = new NotesAdapter(this, listNotes);
+
+        /**
+         * GET DATA - This is an Async call. Any further use of the result will
+         *          need some sort of 'interface' to the async class, or we won't
+         *          have the data avail when we think we do.
+         */
+        new NotesAsyncCB(this,notesBinding,(NotesAdapter) rvAdapter).execute();
     }
 
 }
