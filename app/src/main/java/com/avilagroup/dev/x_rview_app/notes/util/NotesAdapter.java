@@ -19,6 +19,13 @@ public class NotesAdapter
     private List<NoteThingObs> mNotes;
     private SelectionCB selectionCB;
 
+    /**
+     * CONSTRUCTOR
+     *
+     * @param context - activity is a sub to Context, but we'll need
+     *                narrow the specification to really make use of 'activity' methods.
+     * @param notes     - this is a list of the objects. The async call call fill this list.
+     */
     public NotesAdapter(NotesActivity context, List<NoteThingObs> notes) {
         this.activity = context;
         this.mNotes = notes;
@@ -26,13 +33,16 @@ public class NotesAdapter
     }
 
     /**
-     *  Create an interface to the selected item when items get
-     *  bound.
+     * onCreateVH - the first overwritten class of the RV.Adapter class,
+     *              made to hold a custom class, 'NAdapter.RHolder', defined
+     *              here. Notice this is very specific for the type of holder
+     *              desired. This essentially will inflate the view and fill
+     *              in as defined in the rec's layout (ie - a ListView would
+     *              require a different adapter).
+     * @param parent
+     * @param viewType
+     * @return
      */
-    public interface SelectionCB {
-        void itemSelection(int pos, int listSize, String notes);
-    }
-
     @Override
     public RecHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return null;
@@ -56,5 +66,13 @@ public class NotesAdapter
         public RecHolder(View itemView) {
             super(itemView);
         }
+    }
+
+    /**
+     *  INTERFACE - Create an interface to the selected item when items get
+     *  bound.
+     */
+    public interface SelectionCB {
+        void itemSelection(int pos, int listSize, String notes);
     }
 }
