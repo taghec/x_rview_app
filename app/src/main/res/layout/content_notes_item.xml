@@ -24,8 +24,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cardview_light_background"
-    >
+    android:background="@color/cardview_light_background">
 
     <ImageView
         android:layout_width="@dimen/item_med_icon_width"
@@ -41,10 +40,11 @@
         android:layout_height="@dimen/item_med_icon_width">
 
         <LinearLayout
+            android:id="@+id/llTopRow"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="@dimen/item_xsmall_icon_width"
-            android:id="@+id/llTopRow">
+            android:paddingTop="@dimen/appbar_padding_top">
 
             <TextView
                 android:id="@+id/tvNoteName"
@@ -85,7 +85,7 @@
 
         <TextView
             android:id="@+id/tvNoteDetails"
-            android:text="TextView"
+            android:text="@{note.noteDetails}"
             tools:text="@string/stg_note_details_sample"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

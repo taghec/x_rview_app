@@ -23,6 +23,7 @@ public class NoteThingObs
     private long createDate;
     private String noteStatus;
     private long modDate;
+    private String noteDetails;
 
     /**
      * CREATORS
@@ -79,6 +80,12 @@ public class NoteThingObs
     }
 
     @Override
+    @Bindable
+    public String getNoteDetails() {
+        return this.noteDetails;
+    }
+
+    @Override
     public void setId(int id) {
         this.id = id;
     }
@@ -110,5 +117,11 @@ public class NoteThingObs
     public void setDateModified(long date) {
         this.modDate = date;
         notifyPropertyChanged(BR.dateModified);
+    }
+
+    @Override
+    public void setNoteDetails(String noteDetails) {
+        this.noteDetails = noteDetails;
+        notifyPropertyChanged(BR.noteDetails);
     }
 }
