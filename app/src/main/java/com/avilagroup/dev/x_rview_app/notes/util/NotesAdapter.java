@@ -15,6 +15,7 @@ import com.avilagroup.dev.x_rview_app.notes.model.NoteThingObs;
 
 import java.text.DateFormat;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by temp on 19/10/2016.
@@ -64,6 +65,7 @@ public class NotesAdapter
         String _dateNote = dateFormat.format(_note.getCreatedDate());
         String _dateNoteMod = dateFormat.format(_note.getDateModified());
 
+        _note.setStatus(NoteThingObs.NOTE_STATUS[new Random().nextInt(2)]);
         _noteBinding.setNote(_note);
         _noteBinding.setVariable(BR.stg_note_date, _dateNote);
         _noteBinding.setVariable(BR.stg_notemod_date, _dateNoteMod);
