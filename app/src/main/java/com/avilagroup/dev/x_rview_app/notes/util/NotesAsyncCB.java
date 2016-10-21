@@ -2,6 +2,8 @@ package com.avilagroup.dev.x_rview_app.notes.util;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.avilagroup.dev.x_rview_app.databinding.ActivityNotesBinding;
 import com.avilagroup.dev.x_rview_app.notes.NotesActivity;
@@ -17,6 +19,7 @@ import java.util.List;
 public class NotesAsyncCB extends AsyncTask<Void,Void,Void>{
     private Activity context;
     private List<NoteThingObs> mNotes;
+    private ListAccessCB listAccessCB;
     private StorageTools storageTools;
     private final static String RECS_FILE_LOCAL = "notes.dat";
     private static final String SAVE_FORMAT = "txt";
@@ -31,12 +34,21 @@ public class NotesAsyncCB extends AsyncTask<Void,Void,Void>{
      */
     public NotesAsyncCB(NotesActivity context, ActivityNotesBinding binding, NotesAdapter adapter) {
         this.context = context;
+        this.listAccessCB = context;
         this.storageTools = new StorageTools(context, RECS_FILE_LOCAL);
+        this.mNotes = new ArrayList<>();
     }
 
-    public interface ModifyListCB {
+    /**
+     * INTERFACE - Use these methods to gain access to the results.
+     *          Notice the populateAdapter method is called here, after
+     *          data is retrieved.  Implementing and Overriding the method elsewhere
+     *          should give access to that.
+     */
+    public interface ListAccessCB {
         void removeItem(int pos);
         void addItem(String item_name);
+        void populateAdapter(List<NoteThingObs> noteList);
     }
 
     /**
@@ -53,7 +65,7 @@ public class NotesAsyncCB extends AsyncTask<Void,Void,Void>{
          * DATA COLLECTION      - Leave the details to the storage class.
          */
         List<String> _notes = storageTools.getDevRecords();
-        mNotes = storageTools.parseRecords(_notes, new NoteThingObs("temp"));
+        this.mNotes = storageTools.parseRecords(_notes, new NoteThingObs("temp"));
 //        storageTools.saveRecords(mNotes,SAVE_FORMAT);
         return null;
     }
@@ -61,5 +73,7 @@ public class NotesAsyncCB extends AsyncTask<Void,Void,Void>{
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
+
+        listAccessCB.populateAdapter(mNotes);
     }
 }

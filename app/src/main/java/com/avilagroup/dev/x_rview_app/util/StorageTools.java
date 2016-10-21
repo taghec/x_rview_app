@@ -162,7 +162,7 @@ public class StorageTools {
                 for (String row : rows_to_parse) {
                     records.add(new NoteThingObs(row));
                 }
-                Log.d("ASYNC STORAGE","Records added - " + records.toString());
+                Log.d("ASYNC STORAGE PARSE","Records added - " + records.size());
                 break;
             case "json":
                 break;
@@ -174,6 +174,7 @@ public class StorageTools {
                 }
         }
 
+        Log.d("ASYNC STORAGE PARSE","Parsed recs total: " + records.size());
         return records;
     }
 

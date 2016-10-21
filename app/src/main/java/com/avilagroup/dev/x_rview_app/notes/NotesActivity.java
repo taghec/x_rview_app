@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 import com.avilagroup.dev.x_rview_app.R;
@@ -19,14 +20,13 @@ import com.avilagroup.dev.x_rview_app.notes.util.NotesAsyncCB;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NotesActivity extends AppCompatActivity {
+public class NotesActivity extends AppCompatActivity implements NotesAsyncCB.ListAccessCB{
     ActivityNotesBinding notesBinding;
-    List<NoteThingObs> listNotes = new ArrayList<>();
+    RecyclerView.Adapter rvAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        RecyclerView.Adapter rvAdapter;
 
         /**
          * Basics
@@ -52,7 +52,6 @@ public class NotesActivity extends AppCompatActivity {
          */
         final RecyclerView.LayoutManager rvManager = new LinearLayoutManager(this);
         notesBinding.rvlayout.rvNotes.setLayoutManager(rvManager);
-        rvAdapter = new NotesAdapter(this, listNotes);
 
         /**
          * GET DATA - This is an Async call. Any further use of the result will
@@ -62,4 +61,21 @@ public class NotesActivity extends AppCompatActivity {
         new NotesAsyncCB(this,notesBinding,(NotesAdapter) rvAdapter).execute();
     }
 
+    @Override
+    public void removeItem(int pos) {
+        // don't think I can use this here
+    }
+
+    @Override
+    public void addItem(String item_name) {
+        // don't think I can use this here
+    }
+
+    @Override
+    public void populateAdapter(List<NoteThingObs> noteList) {
+        rvAdapter = new NotesAdapter(this,noteList);
+        notesBinding.rvlayout.rvNotes.setAdapter(rvAdapter);
+        Log.d("ASYNC CB POST","Notes: " + noteList.size() + "| Adapter: " + rvAdapter.getItemCount());
+        rvAdapter.notifyDataSetChanged();
+    }
 }

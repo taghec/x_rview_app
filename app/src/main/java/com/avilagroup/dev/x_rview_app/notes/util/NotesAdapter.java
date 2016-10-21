@@ -7,11 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.databinding.library.baseAdapters.BR;
 import com.avilagroup.dev.x_rview_app.R;
 import com.avilagroup.dev.x_rview_app.databinding.ContentNotesItemBinding;
 import com.avilagroup.dev.x_rview_app.notes.NotesActivity;
 import com.avilagroup.dev.x_rview_app.notes.model.NoteThingObs;
 
+import java.text.DateFormat;
 import java.util.List;
 
 /**
@@ -21,7 +23,7 @@ public class NotesAdapter
         extends RecyclerView.Adapter<NotesAdapter.RecHolder>{
     private Activity activity;
     private List<NoteThingObs> mNotes;
-    private SelectionCB selectionCB;
+//    private SelectionCB selectionCB;
 
     /**
      * CONSTRUCTOR
@@ -33,7 +35,7 @@ public class NotesAdapter
     public NotesAdapter(NotesActivity context, List<NoteThingObs> notes) {
         this.activity = context;
         this.mNotes = notes;
-        this.selectionCB = (SelectionCB) context;
+//        this.selectionCB = (SelectionCB) context;
     }
 
     /**
@@ -55,13 +57,22 @@ public class NotesAdapter
     }
 
     @Override
-    public void onBindViewHolder(final RecHolder holder, int position) {
+    public void onBindViewHolder(final RecHolder holder, int pos) {
+        final NoteThingObs _note = mNotes.get(pos);
+        final ContentNotesItemBinding _noteBinding = holder.getBinding();
+        final DateFormat dateFormat = DateFormat.getDateInstance();
+        String _dateNote = dateFormat.format(_note.getCreatedDate());
+        String _dateNoteMod = dateFormat.format(_note.getDateModified());
 
+        _noteBinding.setNote(_note);
+        _noteBinding.setVariable(BR.stg_note_date, _dateNote);
+        _noteBinding.setVariable(BR.stg_notemod_date, _dateNoteMod);
+        _noteBinding.executePendingBindings();
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mNotes.size();
     }
 
     /**
