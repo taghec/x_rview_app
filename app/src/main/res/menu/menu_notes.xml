@@ -3,18 +3,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_bill_edit_opt"
+        android:id="@+id/menu_notelist_edit_opt"
         android:orderInCategory="100"
-        android:title="@string/stg_menu_bill_edit"
-        app:showAsAction="ifRoom"
+        android:title="@string/stg_menu_notelist_edit"
+        app:showAsAction="never"
         android:icon="@drawable/ic_mode_edit_white_24dp"
         android:visible="true"/>
     <item
-        android:id="@+id/menu_bill_save_opt"
+        android:id="@+id/menu_notelist_save_opt"
         android:orderInCategory="200"
-        android:title="@string/stg_menu_bill_save"
-        app:showAsAction="ifRoom"
+        android:title="@string/stg_menu_notelist_save"
+        app:showAsAction="never"
         android:icon="@drawable/ic_save_white_24dp"
-        android:visible="false"/>
+        android:visible="true"
+        android:enabled="false"/>
 
 </menu>

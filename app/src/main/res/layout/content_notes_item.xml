@@ -19,7 +19,6 @@
     android:layout_height="wrap_content"
     android:id="@+id/cv_note_item"
     app:cardElevation="@dimen/cardview_default_elevation"
-    app:cardMaxElevation="@dimen/appbar_padding_top"
     app:cardCornerRadius="@dimen/cardview_compat_inset_shadow">
 <LinearLayout
     android:orientation="horizontal"
@@ -30,12 +29,13 @@
     <ImageView
         android:layout_width="@dimen/item_med_icon_width"
         android:layout_height="@dimen/item_med_icon_width"
-        app:srcCompat="@drawable/ic_assignment_black_48dp"
+        app:srcCompat="@drawable/ic_assignment_black_24dp"
         android:id="@+id/ivNoteIc"
         android:scaleType="fitXY"
         android:contentDescription="@string/stg_note_img_desc"
-        android:tint='@{note.status=="active" ? @color/colorPrimary : @color/cardview_dark_background}'
-        android:padding="@dimen/appbar_padding_top" />
+        android:padding="@dimen/appbar_padding_top"
+        android:layout_margin="@dimen/item_icon_half_margin"
+        android:tint='@{note.status=="active" ? @color/colorPrimary : @color/cardview_dark_background}'/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_med_icon_width">

@@ -33,4 +33,7 @@
     <string name="stg_btn_notes_label">Notes</string>
     <string name="stg_note_img_desc">Note Image</string>
     <string name="stg_note_details_sample">These are the note details.  These should get trunc...</string>
+    <string name="stg_menu_note_edit">Edit Note</string>
+    <string name="stg_menu_notelist_save">Save List</string>
+    <string name="stg_menu_notelist_edit">Edit List</string>
 </resources>

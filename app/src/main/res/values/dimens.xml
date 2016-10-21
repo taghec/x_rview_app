@@ -7,4 +7,5 @@
     <dimen name="item_med_icon_width">54dp</dimen>
     <dimen name="item_small_icon_width">40dp</dimen>
     <dimen name="item_xsmall_icon_width">30dp</dimen>
+    <dimen name="item_icon_half_margin">4dp</dimen>
 </resources>

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MenuItem;
 
 import com.avilagroup.dev.x_rview_app.databinding.ActivityNotesBinding;
 import com.avilagroup.dev.x_rview_app.notes.NotesActivity;
@@ -21,6 +22,7 @@ public class NotesAsyncCB extends AsyncTask<Void,Void,Void>{
     private List<NoteThingObs> mNotes;
     private ListAccessCB listAccessCB;
     private StorageTools storageTools;
+    private MenuItem saveOpt;
     private final static String RECS_FILE_LOCAL = "notes.dat";
     private static final String SAVE_FORMAT = "txt";
 
@@ -49,6 +51,20 @@ public class NotesAsyncCB extends AsyncTask<Void,Void,Void>{
         void removeItem(int pos);
         void addItem(String item_name);
         void populateAdapter(List<NoteThingObs> noteList);
+        void saveItemList(List<NoteThingObs> noteList);
+    }
+
+    /**
+     * ENABLE SAVE - After sync call complete. See:
+     * http://stackoverflow.com/questions/13359010/trouble-making-menuitem-visible-after-asynctask
+     *
+     * Probably don't need this though - see current solution of global MenuItem on
+     * Main Act.
+     *
+     * @param menuItem
+     */
+    public void MenuSaveOption(MenuItem menuItem) {
+        this.saveOpt = menuItem;
     }
 
     /**
@@ -75,5 +91,6 @@ public class NotesAsyncCB extends AsyncTask<Void,Void,Void>{
         super.onPostExecute(aVoid);
 
         listAccessCB.populateAdapter(mNotes);
+//        saveOpt.setEnabled(true);
     }
 }

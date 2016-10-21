@@ -9,7 +9,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.avilagroup.dev.x_rview_app.R;
 import com.avilagroup.dev.x_rview_app.databinding.ActivityNotesBinding;
@@ -23,6 +26,8 @@ import java.util.List;
 public class NotesActivity extends AppCompatActivity implements NotesAsyncCB.ListAccessCB{
     ActivityNotesBinding notesBinding;
     RecyclerView.Adapter rvAdapter;
+    Menu mMenu;
+    MenuItem mMenuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +67,35 @@ public class NotesActivity extends AppCompatActivity implements NotesAsyncCB.Lis
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        this.mMenu = menu;
+        getMenuInflater().inflate(R.menu.menu_notes, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        mMenuItem = menu.findItem(R.id.menu_notelist_save_opt);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id){
+            case R.id.menu_notelist_save_opt:
+                Snackbar.make(notesBinding.getRoot(),"attempting save...",Snackbar.LENGTH_SHORT).show();
+                item.setEnabled(false);
+                break;
+            default:
+                Snackbar.make(notesBinding.getRoot(),"attempting save...",Snackbar.LENGTH_SHORT).show();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void removeItem(int pos) {
         // don't think I can use this here
     }
@@ -77,5 +111,14 @@ public class NotesActivity extends AppCompatActivity implements NotesAsyncCB.Lis
         notesBinding.rvlayout.rvNotes.setAdapter(rvAdapter);
         Log.d("ASYNC CB POST","Notes: " + noteList.size() + "| Adapter: " + rvAdapter.getItemCount());
         rvAdapter.notifyDataSetChanged();
+
+        // enable saving AFTER data is avail
+//        mMenu.findItem(R.id.menu_notelist_save_opt).setEnabled(true);
+//        mMenuItem.setEnabled(true);
+    }
+
+    @Override
+    public void saveItemList(List<NoteThingObs> noteList) {
+
     }
 }
