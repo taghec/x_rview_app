@@ -40,6 +40,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.avilagroup.dev.x_rview_app.MainActivity" />
         </activity>
+        <activity
+            android:name=".notes.NoteDetailActivity"
+            android:label="@string/title_activity_note_detail"
+            android:parentActivityName=".notes.NotesActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.avilagroup.dev.x_rview_app.notes.NotesActivity" />
+        </activity>
     </application>
 
 </manifest>

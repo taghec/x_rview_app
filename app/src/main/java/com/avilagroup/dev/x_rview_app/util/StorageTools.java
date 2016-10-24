@@ -1,8 +1,10 @@
 package com.avilagroup.dev.x_rview_app.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
+import com.avilagroup.dev.x_rview_app.databinding.ActivityBillsAsyncBinding;
 import com.avilagroup.dev.x_rview_app.model.BillParsedObs;
 import com.avilagroup.dev.x_rview_app.notes.model.NoteThingObs;
 

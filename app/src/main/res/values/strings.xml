@@ -36,4 +36,9 @@
     <string name="stg_menu_note_edit">Edit Note</string>
     <string name="stg_menu_notelist_save">Save List</string>
     <string name="stg_menu_notelist_edit">Edit List</string>
+    <string name="title_activity_note_detail">NoteDetailActivity</string>
+    <string name="stg_note_name_label">Note:</string>
+    <string name="stg_note_details_label">Comments</string>
+    <string name="stg_note_date_label">Date:</string>
+    <string name="stg_notemod_date_label">Accessed:</string>
 </resources>

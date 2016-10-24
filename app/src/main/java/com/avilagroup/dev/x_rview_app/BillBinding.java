@@ -2,14 +2,13 @@ package com.avilagroup.dev.x_rview_app;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.avilagroup.dev.x_rview_app.databinding.ActivityBillBindingBinding;
-import com.avilagroup.dev.x_rview_app.databinding.ActivityBillsAsyncBinding;
 import com.avilagroup.dev.x_rview_app.model.BillParsedObs;
 import com.avilagroup.dev.x_rview_app.util.StorageTools;
 

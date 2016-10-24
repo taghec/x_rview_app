@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.databinding.library.baseAdapters.BR;
 import com.avilagroup.dev.x_rview_app.R;
@@ -24,7 +25,7 @@ public class NotesAdapter
         extends RecyclerView.Adapter<NotesAdapter.RecHolder>{
     private Activity activity;
     private List<NoteThingObs> mNotes;
-//    private SelectionCB selectionCB;
+    private SelectionCB selectionCB;
 
     /**
      * CONSTRUCTOR
@@ -36,7 +37,7 @@ public class NotesAdapter
     public NotesAdapter(NotesActivity context, List<NoteThingObs> notes) {
         this.activity = context;
         this.mNotes = notes;
-//        this.selectionCB = (SelectionCB) context;
+        this.selectionCB = context;
     }
 
     /**
@@ -65,11 +66,23 @@ public class NotesAdapter
         String _dateNote = dateFormat.format(_note.getCreatedDate());
         String _dateNoteMod = dateFormat.format(_note.getDateModified());
 
-        _note.setStatus(NoteThingObs.NOTE_STATUS[new Random().nextInt(2)]);
+//        _note.setStatus(NoteThingObs.NOTE_STATUS[new Random().nextInt(2)]);
         _noteBinding.setNote(_note);
         _noteBinding.setVariable(BR.stg_note_date, _dateNote);
         _noteBinding.setVariable(BR.stg_notemod_date, _dateNoteMod);
         _noteBinding.executePendingBindings();
+
+        /**
+         * Get binding to the main layout, and link the class/interface def here
+         */
+        _noteBinding.cvNoteItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int pos = holder.getAdapterPosition();
+                Toast.makeText(activity, "Accessing note: " + pos, Toast.LENGTH_SHORT).show();
+                selectionCB.itemSelection(pos,mNotes.size(), "note selected");
+            }
+        });
     }
 
     @Override
