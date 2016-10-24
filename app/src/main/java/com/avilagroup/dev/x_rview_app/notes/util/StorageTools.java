@@ -5,6 +5,9 @@ import android.util.Log;
 
 import com.avilagroup.dev.x_rview_app.notes.NotesActivity;
 import com.avilagroup.dev.x_rview_app.notes.model.NoteThingObs;
+import com.avilagroup.dev.x_rview_app.notes.model.Notes;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -60,7 +63,8 @@ public class StorageTools {
     }
     public List<NoteThingObs> getParsedRecords(List<String> parse_rows) {
         String format = "DEMO Note";
-        List<NoteThingObs> recs = new ArrayList<>();
+        List<NoteThingObs> rec = new ArrayList<>();
+        Notes notes = new Notes();
 
         if (parse_rows.isEmpty()) {
             //nothing given, send demo
@@ -78,36 +82,57 @@ public class StorageTools {
         switch (format) {
             case FORMAT_TXT:
                 for (String row : parse_rows)
-                    recs.add(new NoteThingObs(row));
+                    rec.add(new NoteThingObs(row));
                 break;
             case FORMAT_JSON:
+                if(!parse_rows.isEmpty()) {
+                    Gson gson = new Gson();
+                    notes = gson.fromJson(parse_rows.get(0),Notes.class);
+                    rec = notes.getNoteList();
+                }
                 break;
             default:
                 Log.d("NOTES STORAGE PARSE","No records found. Format attempted: " + format);
-                recs.add(new NoteThingObs("DEMO DATA" + 100));
+                rec.add(new NoteThingObs("DEMO DATA" + 100));
                 for (int i =1; i<DEMO_RECS; i++)
-                    recs.add(new NoteThingObs(String.format("DEMO Note" + 10+i)));
+                    rec.add(new NoteThingObs(String.format("DEMO Note" + 10+i)));
         }
 
-        Log.d("NOTES STORAGE PARSE","Records processed: " + recs.size());
-        return recs;
+        Log.d("NOTES STORAGE PARSE","Records processed: " + rec.size());
+        return rec;
     }
 
     public void saveRecords(List<NoteThingObs> notes, String format) {
+        List<String> recs;
         switch (format) {
             case FORMAT_TXT:
-                List<String> recs = new ArrayList<>();
+                recs = new ArrayList<>();
                 for (NoteThingObs note : notes)
                     recs.add(note.getName());
+//                saveRecords(recs);
+//                break;
+            case FORMAT_JSON:
+                recs = new ArrayList<>();
+                Notes notes_obj = new Notes();
+                notes_obj.setNoteList(notes);
+                notes_obj.setNotesTotal(notes.size());
+
+                GsonBuilder builder = new GsonBuilder();
+                builder.serializeNulls();
+                Gson gson = builder.create();
+                String json_stg = gson.toJson(notes_obj);
+
+//                Log.d("NOTES STORAGE","Storing JSON: " + json_stg);
+                recs.add(json_stg);
                 saveRecords(recs);
                 break;
-            case FORMAT_JSON:
             default:
         }
     }
 
     private void saveRecords(List<String> rows) {
-        String format = FORMAT_TXT + "\n";
+//        String format = FORMAT_TXT + "\n";
+        String format = FORMAT_JSON + "\n";
         int recs = 0;
 
         try{
@@ -142,19 +167,19 @@ public class StorageTools {
 */
         notes.set(note_id, newNote);
 
-        saveRecords(notes,FORMAT_TXT);
+        saveRecords(notes,FORMAT_JSON);
     }
 
     public void saveNewRec(NoteThingObs note) {
         List<NoteThingObs> notes = getParsedRecords();
         notes.add(note);
-        saveRecords(notes,FORMAT_TXT);
+        saveRecords(notes,FORMAT_JSON);
     }
 
     public void removeRecord(int loc) {
         List<NoteThingObs> notes = getParsedRecords();
 
         notes.remove(loc);
-        saveRecords(notes,FORMAT_TXT);
+        saveRecords(notes,FORMAT_JSON);
     }
 }

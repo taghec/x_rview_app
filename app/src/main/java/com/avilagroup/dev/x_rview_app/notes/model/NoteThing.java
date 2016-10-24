@@ -13,9 +13,11 @@ public interface NoteThing
 
     String getStatus();
     long getDateModified();
+    long getDateRead();
     String getNoteDetails();
 
     void setStatus(String status);
-    void setDateModified(long date);
+    void setDateModified(long dateModified);
+    void setDateRead(long dateRead);
     void setNoteDetails(String noteDetails);
 }

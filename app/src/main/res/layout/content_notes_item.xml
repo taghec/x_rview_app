@@ -13,6 +13,9 @@
         <variable
             name="stg_notemod_date"
             type="String"/>
+        <variable
+            name="stg_note_comm_bite"
+            type="String"/>
     </data>
 <android.support.v7.widget.CardView
     android:layout_width="match_parent"
@@ -45,7 +48,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="@dimen/item_xsmall_icon_width"
-            android:paddingTop="@dimen/appbar_padding_top">
+            android:paddingTop="@dimen/item_icon_half_margin">
 
             <TextView
                 android:id="@+id/tvNoteName"
@@ -86,13 +89,14 @@
 
         <TextView
             android:id="@+id/tvNoteDetails"
-            android:text="@{note.noteDetails}"
+            android:text="@{stg_note_comm_bite}"
             tools:text="@string/stg_note_details_sample"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/llTopRow"
             android:fontFamily="sans-serif"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:paddingBottom="@dimen/default_gap"/>
 
     </RelativeLayout>
 </LinearLayout>

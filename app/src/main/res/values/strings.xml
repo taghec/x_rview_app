@@ -32,7 +32,7 @@
     <string name="title_activity_notes">NotesActivity</string>
     <string name="stg_btn_notes_label">Notes</string>
     <string name="stg_note_img_desc">Note Image</string>
-    <string name="stg_note_details_sample">These are the note details.  These should get trunc...</string>
+    <string name="stg_note_details_sample">These are the note details.  These should get truncated after several characters.</string>
     <string name="stg_menu_note_edit">Edit Note</string>
     <string name="stg_menu_notelist_save">Save List</string>
     <string name="stg_menu_notelist_edit">Edit List</string>
@@ -40,5 +40,5 @@
     <string name="stg_note_name_label">Note:</string>
     <string name="stg_note_details_label">Comments</string>
     <string name="stg_note_date_label">Date:</string>
-    <string name="stg_notemod_date_label">Accessed:</string>
+    <string name="stg_notemod_date_label">Modified:</string>
 </resources>

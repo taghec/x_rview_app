@@ -18,6 +18,9 @@
         <variable
             name="stg_notemod_date"
             type="String"/>
+        <variable
+            name="stg_note_read"
+            type="String"/>
     </data>
     <RelativeLayout
         android:id="@+id/content_note_detail"
@@ -90,6 +93,15 @@
             android:layout_alignBaseline="@+id/tvNoteDateLabel"
             android:layout_alignBottom="@+id/tvNoteDateLabel"
             android:layout_toEndOf="@+id/tvNoteDateLabel" />
+        <TextView
+            android:id="@+id/tvNoteDateRead"
+            android:text='@{" (read: " + stg_note_read + ")"}'
+            tools:text=" (read: 01/01/1990)"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/tvNoteDate"
+            android:layout_alignBottom="@id/tvNoteDate"
+            android:layout_toEndOf="@id/tvNoteDate"/>
 
         <TextView
             android:id="@+id/tvNoteModDateLabel"

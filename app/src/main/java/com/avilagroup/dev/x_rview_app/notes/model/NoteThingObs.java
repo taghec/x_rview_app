@@ -20,9 +20,10 @@ public class NoteThingObs
     private int id;
     private String noteName;
     private short noteTangible;
-    private long createDate;
+    private long dateNote;
+    private long dateMod;
+    private long dateRead;
     private String noteStatus;
-    private long modDate;
     private String noteDetails;
 
     /**
@@ -31,13 +32,14 @@ public class NoteThingObs
      * @param noteName - the name of the note to use
      */
     public NoteThingObs(String noteName) {
-        this.noteName = noteName;
-
         this.id = new Random().nextInt();
-        this.noteTangible = 0;
-        this.createDate = new Date().getTime();
-        this.modDate = createDate;
+        this.noteName = noteName;
+        this.noteTangible = 1;
+        this.dateNote = new Date().getTime();
+        this.dateMod = dateNote;
+        this.dateRead = this.dateNote;
         this.noteStatus = NOTE_STATUS[0];
+        this.noteDetails = "";
     }
 
     /**
@@ -64,7 +66,7 @@ public class NoteThingObs
     @Override
     @Bindable
     public long getCreatedDate() {
-        return createDate;
+        return dateNote;
     }
 
     @Override
@@ -76,7 +78,13 @@ public class NoteThingObs
     @Override
     @Bindable
     public long getDateModified() {
-        return modDate;
+        return dateMod;
+    }
+
+    @Override
+    @Bindable
+    public long getDateRead() {
+        return this.dateRead;
     }
 
     @Override
@@ -103,7 +111,7 @@ public class NoteThingObs
 
     @Override
     public void setCreatedDate(long date) {
-        this.createDate = date;
+        this.dateNote = date;
         notifyPropertyChanged(BR.createdDate);
     }
 
@@ -114,9 +122,15 @@ public class NoteThingObs
     }
 
     @Override
-    public void setDateModified(long date) {
-        this.modDate = date;
+    public void setDateModified(long dateMod) {
+        this.dateMod = dateMod;
         notifyPropertyChanged(BR.dateModified);
+    }
+
+    @Override
+    public void setDateRead(long dateRead) {
+        this.dateRead = dateRead;
+        notifyPropertyChanged(BR.dateRead);
     }
 
     @Override

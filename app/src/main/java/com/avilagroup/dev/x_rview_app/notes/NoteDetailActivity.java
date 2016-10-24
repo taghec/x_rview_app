@@ -41,16 +41,22 @@ public class NoteDetailActivity extends AppCompatActivity {
 
         /**
          * Get the note and bind to it.
+         *
+         * Since we're here, modify read date.
          */
         NoteThingObs mNote = _getNote(note_id, notes_size);
+        if (mNote.getDateRead()==mNote.getCreatedDate())
+            mNote.setDateRead(new Date().getTime());
         noteDetailBinding.loDetail.setNote(mNote);
         String mNoteDate = dateFormat.format(mNote.getCreatedDate());
         String mNoteModDate = dateFormat.format(mNote.getDateModified());
+        String mDateRead = dateFormat.format(mNote.getDateRead());
         mNote.setStatus(NoteThingObs.NOTE_STATUS[1]);
         //Now binding
         noteDetailBinding.loDetail.setNote(mNote);
         noteDetailBinding.loDetail.setVariable(BR.stg_note_date, mNoteDate);
         noteDetailBinding.loDetail.setVariable(BR.stg_notemod_date, mNoteModDate);
+        noteDetailBinding.loDetail.setVariable(BR.stg_note_read, mDateRead);
         noteDetailBinding.loDetail.executePendingBindings();
 
         /**
