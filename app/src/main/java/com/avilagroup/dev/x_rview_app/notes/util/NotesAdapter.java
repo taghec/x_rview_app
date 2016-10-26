@@ -3,7 +3,7 @@ package com.avilagroup.dev.x_rview_app.notes.util;
 import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +17,6 @@ import com.avilagroup.dev.x_rview_app.notes.model.NoteThingObs;
 
 import java.text.DateFormat;
 import java.util.List;
-
-import static android.databinding.tool.util.StringUtils.isNotBlank;
 
 /**
  * Created by temp on 19/10/2016.
@@ -70,13 +68,20 @@ public class NotesAdapter
         String _noteBite = _note.getNoteDetails().length()>40 ?
                 _note.getNoteDetails().substring(0,40) + "\u2026":
                 _note.getNoteDetails();
+        String test_date = DateUtils.getRelativeTimeSpanString(
+                _note.getDateModified()).toString();
+/*
+                ,
+                DateUtils.SECOND_IN_MILLIS,DateUtils.FORMAT_ABBREV_RELATIVE).toString();
+*/
 
 //        _note.setStatus(NoteThingObs.NOTE_STATUS[new Random().nextInt(2)]);
         _noteBinding.setNote(_note);
         _noteBinding.setVariable(BR.stg_note_date, _dateNote);
-        _noteBinding.setVariable(BR.stg_notemod_date, _dateNoteMod);
+        _noteBinding.setVariable(BR.stg_notemod_date, test_date);
         _noteBinding.setVariable(BR.stg_note_comm_bite, _noteBite);
         _noteBinding.executePendingBindings();
+//        _noteBinding.ivNoteIc.setColorFilter(R.color.colorPrimary);
 
         /**
          * Get binding to the main layout, and link the class/interface def here

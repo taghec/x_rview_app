@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +26,7 @@ public class NoteDetailActivity extends AppCompatActivity {
     ActivityNoteDetailBinding noteDetailBinding;
     final private static String ITEM_ID = "note_id";
     final private static String LIST_SIZE = "notes_size";
+    StorageTools storageTools;
     int note_id, notes_size;
     Menu mMenu;
 
@@ -37,7 +39,8 @@ public class NoteDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         note_id = this.getIntent().getIntExtra(ITEM_ID, -1);
         notes_size = this.getIntent().getIntExtra(LIST_SIZE, 0);
-        final DateFormat dateFormat = DateFormat.getDateInstance();
+        storageTools = new StorageTools(this,RECS_FILE_LOCAL);
+//        final DateFormat dateFormat = DateFormat.getDateInstance();
 
         /**
          * Get the note and bind to it.
@@ -45,24 +48,47 @@ public class NoteDetailActivity extends AppCompatActivity {
          * Since we're here, modify read date.
          */
         NoteThingObs mNote = _getNote(note_id, notes_size);
-        if (mNote.getDateRead()==mNote.getCreatedDate())
-            mNote.setDateRead(new Date().getTime());
-        noteDetailBinding.loDetail.setNote(mNote);
+/*
+//        noteDetailBinding.loDetail.setNote(mNote);
         String mNoteDate = dateFormat.format(mNote.getCreatedDate());
         String mNoteModDate = dateFormat.format(mNote.getDateModified());
         String mDateRead = dateFormat.format(mNote.getDateRead());
-        mNote.setStatus(NoteThingObs.NOTE_STATUS[1]);
-        //Now binding
+*/
+        if (mNote.getStatus().equalsIgnoreCase(NoteThingObs.NOTE_STATUS[0])) {
+            Log.d("NOTES DETAIL", "Modify Read Date - status: " + mNote.getStatus());
+            mNote.setDateRead(new Date().getTime());
+            mNote.setStatus(NoteThingObs.NOTE_STATUS[1]);
+            storageTools.updateRecord(mNote,note_id);
+        }
+        /**
+         * SET BINDING
+         */
+        _updateBindFields(noteDetailBinding, mNote);
+/*
         noteDetailBinding.loDetail.setNote(mNote);
         noteDetailBinding.loDetail.setVariable(BR.stg_note_date, mNoteDate);
-        noteDetailBinding.loDetail.setVariable(BR.stg_notemod_date, mNoteModDate);
-        noteDetailBinding.loDetail.setVariable(BR.stg_note_read, mDateRead);
+        noteDetailBinding.loDetail.setVariable(BR.stg_notemod_date,
+                DateUtils.getRelativeTimeSpanString(mNote.getDateModified()));
+        noteDetailBinding.loDetail.setVariable(BR.stg_note_read,
+                DateUtils.getRelativeTimeSpanString(mNote.getDateRead()));
+*/
         noteDetailBinding.loDetail.executePendingBindings();
 
         /**
          * NAV - activate
          */
         _activateNAV(noteDetailBinding, note_id, notes_size);
+    }
+
+    private void _updateBindFields(ActivityNoteDetailBinding binding, NoteThingObs note) {
+        binding.loDetail.setNote(note);
+        //handling special fields
+        binding.loDetail.setVariable(BR.stg_note_date,
+                DateFormat.getDateInstance().format(note.getCreatedDate()));
+        binding.loDetail.setVariable(BR.stg_notemod_date,
+                DateUtils.getRelativeTimeSpanString(note.getDateModified()));
+        binding.loDetail.setVariable(BR.stg_note_read,
+                DateUtils.getRelativeTimeSpanString(note.getDateRead()));
     }
 
     /**
@@ -112,10 +138,11 @@ public class NoteDetailActivity extends AppCompatActivity {
     private void _recModified() {
         NoteThingObs newNote = _getNote(note_id, notes_size);
         boolean toSave = false;
-        ContentNoteDetailBinding binding = noteDetailBinding.loDetail;
-        DateFormat dateFormat = DateFormat.getDateInstance();
-        String newName = binding.etNoteName.getText().toString();
-        String newDetail = binding.etNoteDetails.getText().toString();
+//        ContentNoteDetailBinding binding = noteDetailBinding.loDetail;
+        ActivityNoteDetailBinding binding = noteDetailBinding;
+//        DateFormat dateFormat = DateFormat.getDateInstance();
+        String newName =  binding.loDetail.etNoteName.getText().toString();
+        String newDetail = binding.loDetail.etNoteDetails.getText().toString();
 
         if (newName.length()>0) {
             toSave = true;
@@ -128,18 +155,22 @@ public class NoteDetailActivity extends AppCompatActivity {
 
         if (toSave) {
             newNote.setDateModified(new Date().getTime());
-            binding.setNote(newNote);
-            binding.setVariable(BR.stg_notemod_date,dateFormat
-                                            .format(newNote.getDateModified()));
+/*
+            binding.loDetail.setNote(newNote);
+//            binding.setVariable(BR.stg_notemod_date,dateFormat
+//                                            .format(newNote.getDateModified()));
+            binding.setVariable(BR.stg_notemod_date,
+                    DateUtils.getRelativeTimeSpanString(newNote.getDateModified()));
+*/
+            _updateBindFields(binding,newNote);
             binding.executePendingBindings();
 
-            StorageTools storageTools = new StorageTools(this,RECS_FILE_LOCAL);
             storageTools.updateRecord(newNote,note_id);
         }
 
         // reset entry fields
-        binding.etNoteName.setText("");
-        binding.etNoteDetails.setText("");
+        binding.loDetail.etNoteName.setText("");
+        binding.loDetail.etNoteDetails.setText("");
 
         // complete. exit detail view mode. we'll customize exit.
         finish();
@@ -163,7 +194,9 @@ public class NoteDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 note_id--;
-                binding.loDetail.setNote(_getNote(note_id,notes_size));
+                NoteThingObs _note = _getNote(note_id,notes_size);
+                binding.loDetail.setNote(_note);
+                _updateBindFields(binding,_note);
                 binding.loDetail.executePendingBindings();
                 _activateNAV(binding,note_id,notes_size);
             }
@@ -172,7 +205,9 @@ public class NoteDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 note_id++;
-                binding.loDetail.setNote(_getNote(note_id,notes_size));
+                NoteThingObs _note = _getNote(note_id,notes_size);
+                binding.loDetail.setNote(_note);
+                _updateBindFields(binding,_note);
                 binding.loDetail.executePendingBindings();
                 _activateNAV(binding,note_id,notes_size);
             }
@@ -180,7 +215,6 @@ public class NoteDetailActivity extends AppCompatActivity {
     }
 
     private NoteThingObs _getNote(int note_id, int size) {
-        StorageTools storageTools = new StorageTools(this, RECS_FILE_LOCAL);
         int loc = note_id<0 && size>0 ? new Random().nextInt(size-1) : note_id;
 
         return storageTools.getDevRec(loc);
